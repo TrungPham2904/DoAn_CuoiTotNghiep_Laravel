@@ -1,0 +1,123 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "SONIC API",
+        "description": "SONIC API",
+        "version": "3.x"
+    },
+    "paths": {
+        "/": {},
+        "/api/dang-nhap": {
+            "post": {
+                "tags": [
+                    "NguoiDung"
+                ],
+                "summary": "Login",
+                "operationId": "dangNhap",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "tai_khoan": {
+                                        "description": "Tài Khoản",
+                                        "type": "string"
+                                    },
+                                    "mat_khau": {
+                                        "description": "Mật Khẩu",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/phim": {
+            "get": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Danh Sách Phim",
+                "operationId": "layDanhSach",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "loai_phim_id": {
+                                        "description": "Thể loại",
+                                        "type": "string"
+                                    },
+                                    "quoc_gia_id": {
+                                        "description": "Ngôn Ngữ",
+                                        "type": "string"
+                                    },
+                                    "kieu_phim_id": {
+                                        "description": "Kiểu phim",
+                                        "type": "string"
+                                    },
+                                    "nam_san_xuat": {
+                                        "description": "Năm sản xuất",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

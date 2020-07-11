@@ -1,0 +1,115 @@
+
+.nav_right{
+    width: 76%;
+    position: absolute;
+    left: 20%;
+    top: 102%;
+  }
+  .taitle h1{
+    background: #f3da4e;
+    min-height: 90vh;
+  }
+  input[type="text"]{
+    outline: none;
+    border: none;
+    width: 80%;
+    position: relative;
+    left: 20%;
+    background: none;
+    color: white;
+  }
+  .search{
+      display: inline-block;
+      width: 30%;
+      border: none;
+      height: 35px;
+      font-size: 11px;
+      outline: 0;
+      border-radius: 40px;
+      box-sizing: content-box;
+      box-shadow: none;
+      background: 0 0;
+      color: #fff;
+      text-align: center;
+      letter-spacing: .5px;
+      background: hsla(0,0%,100%,.5);
+      padding-top: 2px;
+      line-height: 24px;
+  }
+
+  
+  .icon_search{
+    position: absolute;
+    z-index: 10;
+    top: 1.5%;
+    left: 23.5%;
+    color: black;
+  }
+  .header_right{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .header_right p{
+    padding-right: 90px;
+    /* border: solid 0.5px #323643; */
+    padding:10px 25.5px;
+    border-radius: 10px;
+    margin-right: 29px;
+    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.8);
+    font-size: 15px;
+  }
+  
+  .pagination{
+    position: absolute;
+    top: 100%;
+    left: 29%;
+    margin-bottom: 20px;
+}
+.navHeader{
+  display: flex;
+  align-items: center;
+}
+.navHeader :nth-child(2){
+  margin-right: 10px;
+  height: 41px !important;
+}
+.navHeader :nth-child(3){
+  padding-right: 10px;
+}
+.navHeader :nth-child(4){
+  padding-right: 10px;
+}
+.navHeader :nth-child(5){
+  padding-right: 10px;
+}
+.navHeader :nth-child(6){
+  padding-right: 10px;
+}
+.homePage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+h1{
+  color: black !important;
+  /* padding: 0 !important; */
+  margin-top: -38px !important;
+  margin-right: 12px !important;
+}
+.login{
+  position: absolute;
+  top: 0%;
+  left: 90%;
+}
+Link{
+  color:white;
+}
+.login button{
+  height: 30px !important;
+  width: 75px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

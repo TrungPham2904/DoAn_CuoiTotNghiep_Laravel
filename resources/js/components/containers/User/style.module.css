@@ -1,0 +1,31 @@
+.right{
+    min-height: 80vh;
+    width: 510%;
+    position: absolute;
+    top: 0%;
+    left: 105%;
+}
+.mb-10{
+    margin-bottom: 10px;
+}
+.mr{
+    margin-right: 10px !important;
+}
+.avatar{
+    width: 150px;
+    height: 150px;
+}
+.btnFilm{
+    background: #00adef;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.right .pagination{
+    position: absolute;
+    left: 35%;
+}
+/* .HTDS{
+    margin-top: 20px;
+} */

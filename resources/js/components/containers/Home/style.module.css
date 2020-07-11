@@ -1,0 +1,68 @@
+body{
+    background: gray;
+}
+.slideshow{
+    /* position: absolute; */
+    left: 4.6%;
+    top:0;
+    /* z-index: -1; */
+}
+
+/* .box{
+    width: 100%;
+}
+.voucher{
+    background: lightblue;
+    height: 50px;
+    width: 100px;
+    display: flex;
+}
+.promosion{
+    width: 100%;
+    display: flex;
+}
+.list{
+    width: 100%;
+    margin:10px 0;
+    width: 25%;
+}
+.promosion img{
+    width: 100%;
+    padding-right: 10px;
+    height: 487.39px;
+}
+
+.movie{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.listVoucher{
+    display: flex;
+    padding: 0;
+    list-style-type: none;
+}
+.listVoucher ul li{
+    margin-right: 50px;
+} */
+.progress{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.overlay{
+    animation: overlay 5s;
+}
+
+/* @keyframes overlay{
+    from{
+        background: rgba(0, 0, 0, 0.6);
+    }
+    to{
+        background: white;
+    }
+} */
+.header{
+    position: fixed;
+    left: 1.5%;
+}
