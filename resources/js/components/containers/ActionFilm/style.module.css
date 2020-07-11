@@ -1,0 +1,13 @@
+.action{
+    position: absolute;
+    top: 9%;
+    left: 20%;
+}
+.comment{
+    background: lightcoral;
+    height: 100px;
+    width: 1000px;
+    position: absolute;
+    top: 100%;
+    left: 20%;
+}

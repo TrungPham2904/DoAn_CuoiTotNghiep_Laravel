@@ -1,0 +1,18 @@
+import {createStore, applyMiddleware} from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer from '../Redux/Reducer';
+
+import {rootSagas} from '../Redux/Sagas';
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+    rootReducer,
+    applyMiddleware(
+        sagaMiddleware
+    )
+)
+sagaMiddleware.run(rootSagas);
+
+export{
+    store
+}

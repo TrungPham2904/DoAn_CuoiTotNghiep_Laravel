@@ -1,0 +1,36 @@
+.right{
+    margin: 0;
+    width: 76%;
+    position: absolute;
+    top: 8%;
+    left: 20%;
+}
+.main{
+    padding: 50px;
+}
+.left{
+    position: fixed;
+    width: 95%;
+}
+.mr{
+    margin-left: 10px !important;
+}
+.btn{
+    width: 20px;
+}
+.like btn{
+    width: 65px;
+}
+a:hover{
+    text-decoration: none;
+}
+.start{
+    color: pink;
+    display: flex;
+    margin-right: 5px;
+}
+.start :hover{
+    color: yellowgreen;
+}
+
+

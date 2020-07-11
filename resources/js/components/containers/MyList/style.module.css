@@ -1,0 +1,21 @@
+.right{
+  margin: 0;
+  width: 76%;
+  position: absolute;
+  top: 1.5%;
+  left: 20%;
+}
+.main{
+  padding: 50px;
+}
+.left{
+  position: fixed;
+  width: 95%;
+}
+
+.pagination{
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  margin-bottom: 20px;
+}
