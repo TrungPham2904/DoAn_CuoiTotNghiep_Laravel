@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use App\phim;
 
 class PhimController extends Controller
@@ -54,13 +54,11 @@ class PhimController extends Controller
             $limit=$req->limit;
         }
         $listDanhSach = phim::where('id','>',0);
-        if(!empty($req->loai_phim_id)){
-        $Ten=$req->ten;
+        if(!empty($req->key_word)){
+        $keyWord=$req->key_word;
         $listDanhSach->where(function($query) use ($keyWord){
-            $query->where('loai_phim_id', 'like', '%'. $Ten. '%')
-                  ->orWhere('quoc_gia_id','like','%'. $Ten. '%')
-                  ->orWhere('kieu_phim_id','like','%'. $Ten. '%')
-                  ->orWhere('nam_san_xuat','like','%'. $Ten. '%');          
+            $query->where('ten_phim','like','%' .$keyWord. '%')
+                  ->orWhere('dien_vien','like','%' .$keyWord. '%');          
         });
         }
         $data=$listDanhSach->paginate($limit);
@@ -73,7 +71,41 @@ class PhimController extends Controller
             ]
         );
 
-	}
+    }
+    public function ChiTietTrang($id)
+    {
+        $Id=phim::find($id);
+        if(empty($Id)){
+            return response()->json([
+                'message'=>'Không tìm thấy thông tin chi tiết',
+               'data'=>$data,
+               'code'=>404
+            ]);
+        }
+        return response()->json(
+            [
+              'message'=>'Lấy thông tin chi tiết thành công',
+               'data'=>$data,
+               'code'=>200   
+            ]
+        );
+    }
+    public function TaoPhim(Request $request)
+    { 
+        if(Request::hasFile('fileFilm')){
+            $file = Request::file('fileFilm');
+            $filename = $file->getClientOriginalName();
+            $path = public_path().'/uploads/';
+             $file->move($path, $filename);
+            return response()->json(
+                [
+                  'message'=>'Upload thành công',
+                   'code'=>200   
+                ]
+            );
+        }
+    }
+    
     /**
      * Display a listing of the resource.
      *

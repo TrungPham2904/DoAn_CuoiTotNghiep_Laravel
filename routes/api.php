@@ -29,7 +29,15 @@ Route::prefix('nguoi-dung')->group(function(){
 
 Route::prefix('phim')->group(function(){
         Route::get('','API\PhimController@layDanhSach');
+        Route::get('tim-kiem','API\PhimController@TiemKiem');
+        Route::get('{id}','API\PhimController@ChiTietTrang');
+        Route::post('them-phim','API\PhimController@TaoPhim');
 });
+
+
+
+
+
 
 
 
