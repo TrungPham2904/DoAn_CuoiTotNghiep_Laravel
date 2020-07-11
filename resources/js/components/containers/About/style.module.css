@@ -1,0 +1,18 @@
+.right{
+    margin: 0;
+    width: 80%;
+    position: absolute;
+    top: 8%;
+    left: 20%;
+    margin-left: 200px;
+}
+.right h2{
+    margin-left: 100px;
+}
+.main{
+    padding: 50px;
+}
+.left{
+    position: fixed;
+    width: 95%;
+}

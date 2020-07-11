@@ -1,0 +1,17 @@
+.right{
+    min-height: 80vh;
+    width: 510%;
+    position: absolute;
+    top: 0%;
+    left: 105%;
+}
+.mb-10{
+    margin-bottom: 10px;
+}
+.mr{
+    margin-right: 10px !important;
+}
+.txtname{
+    border: solid 1px black !important;
+    left: 0 !important;
+}
