@@ -15,8 +15,12 @@ class CreateQuanTriViensTable extends Migration
     {
         Schema::create('quan_tri_viens', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten')->nullable();;
-            $table->string('loai')->nullable();;
+            $table->string('ten')->nullable();
+            $table->string('tai_khoan')->nullable();
+            $table->string('mat_khau')->nullable();
+            $table->string('email')->nullable();
+            $table->string('loai')->nullable();
+            $table->string('fb_token')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

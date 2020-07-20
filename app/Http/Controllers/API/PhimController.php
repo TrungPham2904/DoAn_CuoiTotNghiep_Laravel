@@ -73,7 +73,40 @@ class PhimController extends Controller
             ]
         );
 
-	}
+    }
+    public function ChiTietTrang($id)
+    {
+        $Id=phim::find($id);
+        if(empty($Id)){
+            return response()->json([
+                'message'=>'Không tìm thấy thông tin chi tiết',
+               'data'=>$data,
+               'code'=>404
+            ]);
+        }
+        return response()->json(
+            [
+              'message'=>'Lấy thông tin chi tiết thành công',
+               'data'=>$data,
+               'code'=>200   
+            ]
+        );
+    }
+    public function TaoPhim(Request $request)
+    { 
+        if(Request::hasFile('fileFilm')){
+            $file = Request::file('fileFilm');
+            $filename = $file->getClientOriginalName();
+            $path = public_path().'/uploads/';
+             $file->move($path, $filename);
+            return response()->json(
+                [
+                  'message'=>'Upload thành công',
+                   'code'=>200   
+                ]
+            );
+        }
+    }
     /**
      * Display a listing of the resource.
      *

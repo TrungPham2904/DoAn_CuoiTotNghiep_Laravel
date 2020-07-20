@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'admins',
+        'passwords' => 'users',
     ],
 
     /*
@@ -38,12 +38,17 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'users',
         ],
 
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
+        'quanTriVien' => [
+            'driver'    => 'jwt',
+            'provider'  => 'QuanTriVien',
+            
+        ],
+        'nguoiDung' => [
+            'driver'    => 'jwt',
+            'provider'  => 'NguoiDung',
             
         ],
     ],
@@ -66,15 +71,19 @@ return [
     */
 
     'providers' => [
-        'admins' => [
+        'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
 
-         'users' => [
-             'driver' => 'eloquent',
-             'model' => App\nguoi_dung::class,
-         ],
+        'QuanTriVien' => [
+            'driver'    => 'eloquent',
+            'model'     => App\quan_tri_vien::class,
+        ],
+        'NguoiDung' => [
+            'driver'    => 'eloquent',
+            'model'     => App\nguoi_dung::class,
+        ],
     ],
 
     /*

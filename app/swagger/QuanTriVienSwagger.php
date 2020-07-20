@@ -1,10 +1,33 @@
 <?php
 /**
+ * @OA\Get(
+ *      tags={"Quản Trị Viên"},
+ *      path="/api/quan-tri-vien",
+ *      summary="Lấy danh sách quản trị viên",
+ *      operationId="index",
+ *     @OA\Response(
+ *         response=200,
+ *         description="OK",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
+/**
  * @OA\Post(
- *     tags={"Người Dùng"},
- *     path="/api/nguoi-dung/login",
+ *     tags={"Quản Trị Viên"},
+ *     path="/api/quan-tri-vien/login",
  *     summary="Login",
- *     operationId="dangNhapNguoiDung",
+ *     operationId="dangNhap",
  *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="multipart/form-data",
@@ -47,39 +70,39 @@
  *     }
  * )
  */
-/**
- * @OA\Get(
- *     tags={"Người Dùng"},
- *     path="/api/nguoi-dung",
- *     summary="Danh Sách Phim",
- *     operationId="index",
- *     @OA\Response(
- *         response=200,
- *         description="OK",
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error server",
- *     ),
- *     security={
- *         {"bearerAuth": {}}
- *     }
+ /**
+ * @OA\Post(
+ *      tags={"Quản Trị Viên"},
+ *      path="/api/quan-tri-vien/logout",
+ *      summary="Logout",
+ *      operationId="dangXuat",
+ *      @OA\Response(
+ *          response=200,
+ *          description="OK",
+ *      ),
+ *      @OA\Response(
+ *          response=401,
+ *          description="Unauthorized",
+ *      ),
+ *      @OA\Response(
+ *          response=500,
+ *          description="Error server",
+ *      ),
+ *      security={
+ *          {"bearerAuth": {}}
+ *      }
  * )
  */
 /**
  * @OA\Post(
- *      tags={"Người Dùng"},
- *      path="/api/nguoi-dung/them-moi-nguoidung",
- *      summary="Thêm mới người dùng",
+ *      tags={"Quản Trị Viên"},
+ *      path="/api/quan-tri-vien/them-moi-quantrivien",
+ *      summary="Thêm quản trị viên",
  *      operationId="create",
  *      @OA\Parameter(
  *          name="ten",
  *          in="query",
- *          description="Tên người dùng",
+ *          description="Tên quản trị viên",
  *          @OA\Schema(
  *              type="string"
  *          )
@@ -87,7 +110,7 @@
  *      @OA\Parameter(
  *          name="tai_khoan",
  *          in="query",
- *          description="Tài khoản",
+ *          description="Tai_khoản",
  *          @OA\Schema(
  *              type="string"
  *          )
@@ -105,6 +128,14 @@
  *          name="email",
  *          in="query",
  *          description="Email",
+ *          @OA\Schema(
+ *              type="string"
+ *          )
+ *      ),
+ * @OA\Parameter(
+ *          name="loai",
+ *          in="query",
+ *          description="Loại",
  *          @OA\Schema(
  *              type="string"
  *          )
@@ -136,26 +167,24 @@
  */
 /**
  * @OA\Get(
- *     tags={"Tìm kiếm"},
- *     path="/api/tim-kiem",
- *     summary="Tìm kiếm theo nhu cầu",
- *     operationId="TiemKiem",
- *     @OA\RequestBody(
- *         @OA\MediaType(
- *             mediaType="multipart/form-data",
- *             @OA\Schema(
- *                 type="object",
- *                 @OA\Property(
- *                     property="key_word",
- *                     description="Tìm kiếm",
- *                     type="string",
- *                 ),
- *              ),
- *          ),
- *      ),
- *  @OA\Response(
+ *     tags={"Quản Trị Viên"},
+ *     path="/api/quan-tri-vien/{id}",
+ *     summary="Chi tiết thông tin quản trị viên",
+ *     operationId="show",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID của quản trị viên",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Response(
  *         response=200,
- *         description="OK",
+ *         description="Successful operation",
  *     ),
  *     @OA\Response(
  *         response=401,
@@ -170,22 +199,39 @@
  *     }
  * )
  */
-
 /**
- * @OA\Get(
- *     tags={"Chi Tiết Trang"},
- *     path="/api/phim/{id}",
- *     summary="Thông tin chi tiết trang",
- *     operationId="ChiTietTrang",
+ * @OA\Post(
+ *     tags={"Quản Trị Viên"},
+ *     path="/api/quan-tri-vien/{id}",
+ *     summary="Cập nhật thông tin quản trị viên",
+ *     operationId="update",
  *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         required=true,
- *         description="ID phim",
- *         @OA\Schema(
- *             type="integer",
- *             format="int64",
- *             minimum=1
+ *          name="id",
+ *          in="path",
+ *          required=true,
+ *          description="ID của quản trị viên",
+ *          @OA\Schema(
+ *              type="integer",
+ *              format="int64",
+ *              minimum=1,
+ *          )
+ *     ),
+ *     @OA\RequestBody(
+ *          @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 @OA\Property(
+ *                     property="ten",
+ *                     description=" Tên quản trị viên",
+ *                     type="string",
+ *                 ),
+ *                 @OA\Property(
+ *                     property="tai_khoan",
+ *                     description="Tài khoản quản trị viên",
+ *                     type="string",
+ *                 ),
+ *             )
  *         )
  *     ),
  *     @OA\Response(
@@ -205,40 +251,3 @@
  *     }
  * )
  */
-  /**
- * @OA\Post(
- *     tags={"Phim"},
- *     path="/api/phim/them-phim",
- *     summary="Cập nhật phim",
- *     operationId="TaoPhim",
- *      @OA\RequestBody(
- *         @OA\MediaType(
- *             mediaType="multipart/form-data",
- *             @OA\Schema(
- *                 type="object",
- *                 @OA\Property(
- *                     property="fileFilm",
- *                     description="Thêm file",
- *                     type="file",
- *                 ),
- *              ),
- *          ),
- *      ),
- *     @OA\Response(
- *         response=200,
- *         description="Successful operation",
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error server",
- *     ),
- *     security={
- *         {"bearerAuth": {}}
- *     }
- * )
- */
- 

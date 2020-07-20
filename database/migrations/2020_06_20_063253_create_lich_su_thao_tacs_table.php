@@ -15,9 +15,9 @@ class CreateLichSuThaoTacsTable extends Migration
     {
         Schema::create('lich_su_thao_tacs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('nguoi_dung_id')->nullable();;
-            $table->string('chuc_nang')->nullable();;
-            $table->string('thoi_gian')->nullable();;
+            $table->integer('nguoi_dung_id')->nullable();
+            $table->string('chuc_nang')->nullable();
+            $table->string('thoi_gian')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

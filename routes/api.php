@@ -12,24 +12,38 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Đăng nhập
-Route::post('dang-nhap','API\LoginController@dangNhap');
-
-// Lấy thông tin đăng nhập
-
-Route::middleware(['assign.guard:api','jwt.auth'])->group(function(){
-	Route::get('lay-thong-tin','API\LoginController@layThongTin');
-
+Route::group(['prefix' => 'quan-tri-vien'], function () {
+        Route::post('login', 'API\LoginController@dangNhap');
+Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|nguoi_dung'])->group(function(){
+        Route::post('logout', 'API\LoginController@dangXuat');
+    });
+    Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien'])->group(function(){
+        Route::get('','API\QuanTriVienController@index');
+        Route::post('them-moi-quantrivien','API\QuanTriVienController@create');
+        Route::get('{id}','API\QuanTriVienController@show');
+        Route::post('{id}','API\QuanTriVienController@update');
+    });
 });
 
-Route::prefix('nguoi-dung')->group(function(){
-        Route::get('','NguoiDungController@index');
+Route::group(['prefix' => 'nguoi-dung'], function () {
+        Route::get('','API\NguoiDungController@index');
+        Route::post('login', 'API\LoginController@dangNhapNguoiDung');
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien|nguoi_dung'])->group(function(){
+                        
+        });
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien'])->group(function(){
+                Route::post('them-moi-nguoidung','API\NguoiDungController@create');
+        });     
         Route::get('tiem-kiem','API\PhimController@TiemKiem');
+        Route::get('{id}','API\PhimController@ChiTietTrang');
+        Route::post('them-phim','API\PhimController@TaoPhim');
 });
 
 Route::prefix('phim')->group(function(){
         Route::get('','API\PhimController@layDanhSach');
 });
+
+
 
 
 
