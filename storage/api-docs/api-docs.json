@@ -60,6 +60,7 @@
                 ]
             }
         },
+
         "/api/nguoi-dung": {
             "get": {
                 "tags": [
@@ -153,7 +154,9 @@
                 ]
             }
         },
-        "/api/tim-kiem": {
+
+
+        "/api/nguoi-dung/tim-kiem": {
             "get": {
                 "tags": [
                     "Tìm kiếm"
@@ -193,7 +196,8 @@
                 ]
             }
         },
-        "/api/phim/{id}": {
+
+        "/api/nguoi-dung/{id}": {
             "get": {
                 "tags": [
                     "Chi Tiết Trang"
@@ -231,7 +235,7 @@
                 ]
             }
         },
-        "/api/phim/them-phim": {
+        "/api/nguoi-dung/them-phim": {
             "post": {
                 "tags": [
                     "Phim"
@@ -271,6 +275,7 @@
                 ]
             }
         },
+
         "/api/phim": {
             "get": {
                 "tags": [
@@ -296,13 +301,41 @@
                 ]
             }
         },
-        "/api/quan-tri-vien": {
-            "get": {
-                "tags": [
-                    "Quản Trị Viên"
-                ],
-                "summary": "Lấy danh sách quản trị viên",
-                "operationId": "index",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "mat_khau"
+                                ],
+                                "properties": {
+
+                                    "email": {
+                                        "description": "Email",
+
+                                    "loai_phim_id": {
+                                        "description": "Thể loại",
+                                        "type": "string"
+                                    },
+                                    "quoc_gia_id": {
+                                        "description": "Ngôn Ngữ",
+
+                                    "mat_khau": {
+                                        "description": "Mật Khẩu",
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "fcm_token": {
+                                        "description": "Token device",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -321,24 +354,170 @@
                 ]
             }
         },
-        "/api/quan-tri-vien/login": {
+        "/api/quan-tri-vien/logout": {
             "post": {
                 "tags": [
                     "Quản Trị Viên"
                 ],
-                "summary": "Login",
-                "operationId": "dangNhap",
+                "summary": "Logout",
+                "operationId": "dangXuat",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/quan-tri-vien/them-moi-quantrivien": {
+            "post": {
+                "tags": [
+                    "Quản Trị Viên"
+                ],
+                "summary": "Thêm quản trị viên",
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "ten",
+                        "in": "query",
+                        "description": "Tên quản trị viên",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tai_khoan",
+                        "in": "query",
+                        "description": "Tai_khoản",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mat_khau",
+                        "in": "query",
+                        "description": "Mật  khẩu",
+                        "schema": {
+                            "type": "string",
+                            "format": "password"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "loai",
+                        "in": "query",
+                        "description": "Loại",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fb_token",
+                        "in": "query",
+                        "description": "fb_token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/quan-tri-vien/{id}": {
+            "get": {
+                "tags": [
+                    "Quản Trị Viên"
+                ],
+                "summary": "Chi tiết thông tin quản trị viên",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của quản trị viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Quản Trị Viên"
+                ],
+                "summary": "Cập nhật thông tin quản trị viên",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của quản trị viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "email",
-                                    "mat_khau"
-                                ],
                                 "properties": {
-                                    "email": {
-                                        "description": "Email",
+                                    "ten": {
+                                        "description": " Tên quản trị viên",
                                         "type": "string"
                                     },
 
@@ -543,6 +722,7 @@
                                         "description": " Tên quản trị viên",
 
                                         "type": "string"
+
                                     },
                                     "tai_khoan": {
                                         "description": "Tài khoản quản trị viên",
@@ -705,5 +885,6 @@
                 "scheme": "bearer"
             }
         }
+    }
     }
 }

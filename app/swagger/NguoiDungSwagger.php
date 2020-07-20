@@ -137,7 +137,7 @@
 /**
  * @OA\Get(
  *     tags={"Tìm kiếm"},
- *     path="/api/tim-kiem",
+ *     path="/api/nguoi-dung/tim-kiem",
  *     summary="Tìm kiếm theo nhu cầu",
  *     operationId="TiemKiem",
  *     @OA\RequestBody(
@@ -170,11 +170,10 @@
  *     }
  * )
  */
-
 /**
  * @OA\Get(
  *     tags={"Chi Tiết Trang"},
- *     path="/api/phim/{id}",
+ *     path="/api/nguoi-dung/{id}",
  *     summary="Thông tin chi tiết trang",
  *     operationId="ChiTietTrang",
  *     @OA\Parameter(
@@ -208,7 +207,7 @@
   /**
  * @OA\Post(
  *     tags={"Phim"},
- *     path="/api/phim/them-phim",
+ *     path="/api/nguoi-dung/them-phim",
  *     summary="Cập nhật phim",
  *     operationId="TaoPhim",
  *      @OA\RequestBody(
@@ -241,4 +240,4 @@
  *     }
  * )
  */
- 
+
