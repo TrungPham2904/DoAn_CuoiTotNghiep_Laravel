@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,24 +51,36 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof UnauthorizedHttpException){
+        if ($exception instanceof UnauthorizedHttpException) {
             $preException = $exception->getPrevious();
-            if($preException instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException)
-            {
-               return response()->json(['error' => 'TOKEN_EXPIRED']);
-            }
-            else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) 
-            {
-                return response()->json(['error' => 'TOKEN_INVALID']);
-            }
-            else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) 
-            {
-                return response()->json(['error' => 'TOKEN_BLACKLISTED']);
-            }
+            if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+                return response()->json([
+                    'message'   => 'Token hết hạn.',
+                    'code'      => 401
+                ], 401);
+            } else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+                return response()->json([
+                    'message'   => 'Token không đúng.',
+                    'code'      => 401
+                ], 401);
+            } else if ($preException instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
+                 return response()->json([
+                    'message'   => 'Token trong danh sách đen.',
+                    'code'      => 401
+                 ], 401);
+           }
+           if ($exception->getMessage() === 'Token not provided') {
+                return response()->json([
+                    'message'   => 'Chưa có token.',
+                    'code'      => 401
+                ], 401);
+           }
         }
-        if($exception->getMessage() == 'Token not provided')
-        {
-            return response()->json(['error' => 'Token not provided']);
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+            return response()->json([
+                'message'   => 'Bạn không thể thực hiện chức năng này',
+                'code'      => 401
+            ]);
         }
         return parent::render($request, $exception);
     }

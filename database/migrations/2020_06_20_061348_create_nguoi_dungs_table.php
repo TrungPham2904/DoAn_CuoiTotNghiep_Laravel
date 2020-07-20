@@ -15,11 +15,11 @@ class CreateNguoiDungsTable extends Migration
     {
         Schema::create('nguoi_dungs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten');
-            $table->string('tai_khoan');
-            $table->string('mat_khau');
-            $table->string('email');
-            $table->string('fb_token');
+            $table->string('ten')->nullable();
+            $table->string('tai_khoan')->nullable();
+            $table->string('mat_khau')->nullable();
+            $table->string('email')->nullable();
+            $table->string('fb_token')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
