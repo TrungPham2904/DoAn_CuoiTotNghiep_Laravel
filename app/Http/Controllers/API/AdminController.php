@@ -1,23 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\nguoi_dung;
-
-
-
-class NguoiDungController extends Controller
+class AdminController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $NguoiDung = nguoi_dung::all();
-        return Response()->json($NguoiDung);
+    {     
+      //
     }
 
     /**
@@ -49,7 +47,6 @@ class NguoiDungController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -84,19 +81,5 @@ class NguoiDungController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function xuLyDangNhap(Request $req)
-    {
-       
-        $credentials= [
-            'tai_khoan' => $req->tai_khoan,
-            'password' => $req->mat_khau
-        ];
-    #chứng thật thông tin đăng nhập
-        if(!auth('web')->attempt($credentials)){
-            #sai tên đăng nhập hoặc mật khẩu
-            return 'Đăng nhập thất bại';
-        }
-        return redirect()->route('vào trang chủ');
     }
 }

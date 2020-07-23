@@ -5,37 +5,45 @@
  *     path="/api/phim",
  *     summary="Danh Sách Phim",
  *     operationId="layDanhSach",
- *     @OA\RequestBody(
+ *     @OA\Response(
+ *         response=200,
+ *         description="OK",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
+ /**
+ * @OA\Post(
+ *     tags={"Phim"},
+ *     path="/api/nguoi-dung/them-phim",
+ *     summary="Thêm phim ",
+ *     operationId="TaoPhim",
+ *      @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="multipart/form-data",
  *             @OA\Schema(
  *                 type="object",
  *                 @OA\Property(
- *                     property="loai_phim_id",
- *                     description="Thể loại",
- *                     type="string",
+ *                     property="fileFilm",
+ *                     description="Thêm file",
+ *                     type="file",
  *                 ),
- *              @OA\Property(
- *                     property="quoc_gia_id",
- *                     description="Ngôn Ngữ",
- *                     type="string",
- *                 ),
- *               @OA\Property(
- *                     property="kieu_phim_id",
- *                     description="Kiểu phim",
- *                     type="string",
- *                 ),
-  *               @OA\Property(
- *                     property="nam_san_xuat",
- *                     description="Năm sản xuất",
- *                     type="string",
- *                 ),
+ *              ),
  *          ),
- *         ),
- *        ),
+ *      ),
  *     @OA\Response(
  *         response=200,
- *         description="OK",
+ *         description="Successful operation",
  *     ),
  *     @OA\Response(
  *         response=401,

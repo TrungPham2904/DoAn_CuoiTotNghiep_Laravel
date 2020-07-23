@@ -15,4 +15,5 @@ class phim extends Model
     // {
     //     return $this->belongsTo('App\loai_phim','id','loai_phim_id');
     // }
+    
 }

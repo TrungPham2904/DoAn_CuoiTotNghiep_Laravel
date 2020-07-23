@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
         	LoaiPhimSeeder::class,
         	NguoiDungSeeder::class,
         	PhimSeeder::class,
-        	QuocGiaSeeder::class,
+            QuocGiaSeeder::class,
+           
+            RolesAndPermissionsSeeder::class,
+            SupperAdminSeeder::class,
         ]);
     }
 }
