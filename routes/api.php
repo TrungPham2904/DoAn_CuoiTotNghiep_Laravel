@@ -14,36 +14,45 @@ use Illuminate\Http\Request;
 */
 Route::group(['prefix' => 'quan-tri-vien'], function () {
         Route::post('login', 'API\LoginController@dangNhap');
-Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|nguoi_dung'])->group(function(){
+Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|nguoi_dung|supper_admin'])->group(function(){
         Route::post('logout', 'API\LoginController@dangXuat');
     });
-    Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien'])->group(function(){
+    Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:supper_admin|quan_tri_vien'])->group(function(){
         Route::get('','API\QuanTriVienController@index');
-        Route::post('them-moi-quantrivien','API\QuanTriVienController@create');
+       
         Route::get('{id}','API\QuanTriVienController@show');
+        
+    });
+    Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:supper_admin'])->group(function(){
+        Route::post('them-moi-quantrivien','API\QuanTriVienController@create');
         Route::post('{id}','API\QuanTriVienController@update');
     });
 });
 
 Route::group(['prefix' => 'nguoi-dung'], function () {
-        Route::get('','API\NguoiDungController@index');
         Route::post('login', 'API\LoginController@dangNhapNguoiDung');
+        Route::post('them-moi-nguoidung','API\NguoiDungController@create');
         Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien|nguoi_dung'])->group(function(){
-                        
+                          
         });
-        Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien'])->group(function(){
-                Route::post('them-moi-nguoidung','API\NguoiDungController@create');
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien|supper_admin|nguoi_dung'])->group(function(){
+               
         });     
         Route::get('tiem-kiem','API\PhimController@TiemKiem');
         Route::get('{id}','API\PhimController@ChiTietTrang');
         Route::post('them-phim','API\PhimController@TaoPhim');
+       
+});
+Route::group(['prefix' => 'admin'], function () {
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
+                Route::get('','API\NguoiDungController@index');
+        }); 
+
 });
 
 Route::prefix('phim')->group(function(){
         Route::get('','API\PhimController@layDanhSach');
-        Route::get('tim-kiem','API\PhimController@TiemKiem');
-        Route::get('{id}','API\PhimController@ChiTietTrang');
-        Route::post('them-phim','API\PhimController@TaoPhim');
+      
 });
 
 

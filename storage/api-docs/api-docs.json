@@ -12,7 +12,7 @@
                 "tags": [
                     "Người Dùng"
                 ],
-                "summary": "Login",
+                "summary": "Login người dùng",
                 "operationId": "dangNhapNguoiDung",
                 "requestBody": {
                     "content": {
@@ -42,31 +42,6 @@
                         }
                     }
                 },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Error server"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/nguoi-dung": {
-            "get": {
-                "tags": [
-                    "Người Dùng"
-                ],
-                "summary": "Danh Sách Phim",
-                "operationId": "index",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -153,47 +128,7 @@
                 ]
             }
         },
-        "/api/tim-kiem": {
-            "get": {
-                "tags": [
-                    "Tìm kiếm"
-                ],
-                "summary": "Tìm kiếm theo nhu cầu",
-                "operationId": "TiemKiem",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "key_word": {
-                                        "description": "Tìm kiếm",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Error server"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/phim/{id}": {
+        "/api/nguoi-dung/{id}": {
             "get": {
                 "tags": [
                     "Chi Tiết Trang"
@@ -231,31 +166,100 @@
                 ]
             }
         },
-        "/api/phim/them-phim": {
-            "post": {
+        "/api/nguoi-dung/tiem-kiem": {
+            "get": {
                 "tags": [
-                    "Phim"
+                    "Người Dùng"
                 ],
-                "summary": "Cập nhật phim",
-                "operationId": "TaoPhim",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "fileFilm": {
-                                        "description": "Thêm file",
-                                        "type": "file"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "summary": "Tiềm kiếm tất cả",
+                "operationId": "TiemKiem",
+                "parameters": [
+                    {
+                        "name": "key_word",
+                        "in": "query",
+                        "description": "Find admin by keyword (ten_phim | dien_vien)",
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin": {
+            "get": {
+                "tags": [
+                    "Người Dùng"
+                ],
+                "summary": "Danh sách người dùng",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng người trên trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter customer (ten | tai_khoan | email |fb_token)",
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "properties": {
+                                        "ten": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "tai_khoan": {
+                                            "type": "string"
+                                        },
+                                        "fb_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -296,13 +300,102 @@
                 ]
             }
         },
+        "/api/nguoi-dung/them-phim": {
+            "post": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Thêm phim ",
+                "operationId": "TaoPhim",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "fileFilm": {
+                                        "description": "Thêm file",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/quan-tri-vien": {
             "get": {
                 "tags": [
                     "Quản Trị Viên"
                 ],
-                "summary": "Lấy danh sách quản trị viên",
+                "summary": "Danh sách quản trị viên",
                 "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng quản trị viên trên trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter admin (ten | tai_khoan | email |fb_token)",
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "properties": {
+                                        "ten": {
+                                            "type": "string"
+                                        },
+                                        "tai_khoan": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "fb_token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -326,7 +419,7 @@
                 "tags": [
                     "Quản Trị Viên"
                 ],
-                "summary": "Login",
+                "summary": "Login supper-admin || admin",
                 "operationId": "dangNhap",
                 "requestBody": {
                     "content": {
@@ -341,9 +434,6 @@
                                         "description": "Email",
                                         "type": "string"
                                     },
-
-                                    "kieu_phim_id": {
-                                        "description": "Kiểu phim",
                                     "mat_khau": {
                                         "description": "Mật Khẩu",
                                         "type": "string",
@@ -382,7 +472,7 @@
                 "tags": [
                     "Quản Trị Viên"
                 ],
-                "summary": "Logout",
+                "summary": "Logout người dùng || supper-admin || admin ",
                 "operationId": "dangXuat",
                 "responses": {
                     "200": {
@@ -439,14 +529,6 @@
                         "name": "email",
                         "in": "query",
                         "description": "Email",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "loai",
-                        "in": "query",
-                        "description": "Loại",
                         "schema": {
                             "type": "string"
                         }
@@ -541,16 +623,11 @@
                                 "properties": {
                                     "ten": {
                                         "description": " Tên quản trị viên",
-
                                         "type": "string"
                                     },
                                     "tai_khoan": {
                                         "description": "Tài khoản quản trị viên",
                                         "type": "string"
-                                    },
-                                    "quoc_gia_id": {
-                                        "description": "Quốc gia",
-                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -561,124 +638,6 @@
                 "responses": {
                     "200": {
                         "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Error server"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/tim-kiem": {
-            "get": {
-                "tags": [
-                    "Tìm kiếm"
-                ],
-                "summary": "Tìm kiếm theo nhu cầu",
-                "operationId": "TiemKiem",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "key_word": {
-                                        "description": "Tìm kiếm",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Error server"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/phim/{id}": {
-            "get": {
-                "tags": [
-                    "Chi Tiết Trang"
-                ],
-                "summary": "Thông tin chi tiết trang",
-                "operationId": "ChiTietTrang",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID phim",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "minimum": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "500": {
-                        "description": "Error server"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/phim/them-phim": {
-            "post": {
-                "tags": [
-                    "Phim"
-                ],
-                "summary": "Cập nhật phim",
-                "operationId": "TaoPhim",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "fileFilm": {
-                                        "description": "Thêm file",
-                                        "type": "file"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
                     },
                     "401": {
                         "description": "Unauthorized"

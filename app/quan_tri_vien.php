@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
@@ -27,5 +28,6 @@ class quan_tri_vien extends Authenticatable implements
      {
      	return [];
      }
+     
     
 }

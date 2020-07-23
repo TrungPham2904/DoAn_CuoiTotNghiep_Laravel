@@ -22,35 +22,28 @@ class NguoiDungController extends Controller
      */
     public function index()
     {
-        $limit=30;
+        $limit=20;
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSach = phim::where('id','>',0);
-        if(!empty($req->quoc_gia_id)){
-            $quocgiatheoid=$req->quoc_gia_id;
-            $listDanhSach->whereHas('Quocgia', function (Builder $query) use ($quocgiatheoid) {
-                $query->where('id',$quocgiatheoid);
-        });
-        }
-        // if(!empty($req->loai_phim_id)){
-        //      $loaiphimid=$req->loai_phim_id;
-        //      $listDanhSach->whereHas('Loaiphim',function (Builder $query) use ($loaiphimid){
-        //         $query->where('id',$loaiphimid);
-        //      });
-        if(!empty($req->loai_phim_id))
+        $listDanhSachQuanTriVien = nguoi_dung::where('id','>',0);
+        if(!empty($req->ten))
         {
-            $listDanhSach=where('loai_phim_id','like','%' .$req->loai_phim_id. '%');
+            $listDanhSachQuanTriVien=where('ten','like','%' .$req->ten. '%');
         }
-        if(!empty($req->kieu_phim_id))
+        if(!empty($req->tai_khoan))
         {
-             $listDanhSach=where('kieu_phim_id','like','%' .$req->kieu_phim_id. '%');
+            $listDanhSachQuanTriVien=where('tai_khoan','like','%' .$req->tai_khoan. '%');
         }
-        if(!empty($req->nam_san_xuat))
+        if(!empty($req->email))
         {
-            $listDanhSach=where('nam_san_xuat','like','%' .$req->nam_san_xuat. '%');
+            $listDanhSachQuanTriVien=where('email','like','%' .$req->email. '%');
         }
-        $data=$listDanhSach->paginate($limit);
+        if(!empty($req->fb_token))
+        {
+            $listDanhSachQuanTriVien=where('fb_token','like','%' .$req->fb_token. '%');
+        }
+        $data=$listDanhSachQuanTriVien->paginate($limit);
 
         return response()->json(
             [
@@ -122,7 +115,7 @@ class NguoiDungController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id) {
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'quan_tri_vien' || JWTAuth::user()->roles[0]->name == 'supper_admin') {
             $nguoiDung = nguoi_dung::find($id);
             if(empty($nguoiDung)){
                 return response()->json([
@@ -171,13 +164,13 @@ class NguoiDungController extends Controller
                 'code'      => 417
             ]);
         }
-        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->ten == 'Admin')
+        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'quan_tri_vien' || JWTAuth::user()->roles[0]->name == 'supper_admin')
         {
     //   $quantrivien = quan_tri_vien::where('id',$req->id);
         $nguoiDung = nguoi_dung::find($id);
       if(empty($nguoiDung)){
         return response()->json([
-            'message'   => 'Không tìm thấy thông tin quản trị viên tương ứng',
+            'message'   => 'Không tìm thấy người dùng tương ứng',
             'code'      => 404
         ]);
       }
@@ -211,8 +204,9 @@ class NguoiDungController extends Controller
     }
         $nguoiDung->save();
       return response()->json([
-        'message'=>'Cập nhập thành công',
-        'code'=>404,
+        'message_vn'    => 'Cập nhật thành công',
+        'message_en'    => 'Update successful',
+        'code'=>200,
         'date'=>$nguoiDung
     ]);
         }

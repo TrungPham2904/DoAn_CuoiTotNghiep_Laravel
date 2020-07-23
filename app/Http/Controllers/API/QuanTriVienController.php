@@ -29,12 +29,24 @@ class QuanTriVienController extends Controller
         $listDanhSachQuanTriVien = quan_tri_vien::where('id','>',1);
         if(!empty($req->ten))
         {
-            $listDanhSachQuanTriVien=where('ten','like','%' .$req->ten. '%');
+            $listDanhSachQuanTriVien->where('ten','<>','SupperAdmin')
+                                    ->where('ten','like','%' .$req->ten. '%');    
         }
-        if(!empty($req->loai))
+        if(!empty($req->tai_khoan))
         {
-            $listDanhSachQuanTriVien=where('loai','like','%' .$req->loai. '%');
+            $listDanhSachQuanTriVien->where('tai_khoan','<>','Supper-Admin')
+                                    ->where('tai_khoan','like','%' .$req->tai_khoan. '%');
         }
+        if(!empty($req->email))
+        {
+            $listDanhSachQuanTriVien->where('email','<>','supperadmin@gmail.com')
+                                    ->where('email','like','%' .$req->email. '%');
+        }
+        if(!empty($req->fb_token))
+        {
+            $listDanhSachQuanTriVien->where('fb_token',$req->fb_token);
+        }
+        $listDanhSachQuanTriVien->orderBy('ten');
         $data=$listDanhSachQuanTriVien->paginate($limit);
 
         return response()->json(
@@ -78,14 +90,19 @@ class QuanTriVienController extends Controller
         $quantrivien->tai_khoan=$req->tai_khoan;
         $quantrivien->mat_khau=Hash::make($req->mat_khau);
         $quantrivien->email=$req->email;
-        $quantrivien->loai=$req->loai;
         $quantrivien->fb_token=$req->fb_token;
         $quantrivien->save();
         $quantrivien->assignRole($role->name)
-                    ->givePermissionTo('toan_quyen');
+                    ->givePermissionTo([
+                        'qtv_xem_tai',
+                        'qtv_them_xoa_sua_phim',
+                        'qtv_them_xoa_sua_nguoidung',
+                    ]);
         return response()->json([
-            'message'=>'Thêm thành công',
-            'code'=>404
+            'message_vn'    => 'Thêm thành công',
+            'message_en'    => 'Add successful',
+            'code'          => 200,
+            'data'          => $quantrivien
         ]);
     }
 
@@ -108,22 +125,25 @@ class QuanTriVienController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id) {
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' ) {
             $quanTriVien = quan_tri_vien::find($id);
             if(empty($quanTriVien)){
                 return response()->json([
-                    'message'   => 'Không tìm thấy thông tin quản trị viên tương ứng',
+                    'message_vn'   => 'Không tìm thấy thông tin quản trị viên tương ứng',
+                    'message_en'    => 'No admin information found',
                     'code'      => 404
                 ]);
             }
             return response()->json([
-                'message'   => 'Lấy chi tiết thông tin quản trị viên thành công!',
+                'message_vn'   => 'Lấy chi tiết thông tin quản trị viên thành công!',
+                'message_en'    => 'Get the detail information of successful',
                 'code'      => 200,
                 'data'      => $quanTriVien
             ]);
         }
         return response()->json([
-            'message'   => 'Bạn không thể thực hiện chức năng này',
+            'message_vn'   => 'Bạn không thể thực hiện chức năng này',
+            'message_en'    => 'User incorrect',
             'code'      => 403
         ]);
     }
@@ -148,6 +168,9 @@ class QuanTriVienController extends Controller
      */
     public function update(Request $req,$id)
     {
+        
+        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin')
+        {
         $valid = new UpdateRequest;
         $validation = Validator::make($req->all(), $valid->rules(), $valid->messages());
         $msgError = $validation->messages()->first();
@@ -157,8 +180,6 @@ class QuanTriVienController extends Controller
                 'code'      => 417
             ]);
         }
-        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->ten == 'Admin')
-        {
     //   $quantrivien = quan_tri_vien::where('id',$req->id);
         $quantrivien = quan_tri_vien::find($id);
       if(empty($quantrivien)){
@@ -197,8 +218,9 @@ class QuanTriVienController extends Controller
     }
         $quantrivien->save();
       return response()->json([
-        'message'=>'Cập nhập thành công',
-        'code'=>404,
+        'message_vn'    => 'Cập nhật thành công',
+        'message_en'    => 'Update successful',
+        'code'=>200,
         'date'=>$quantrivien
     ]);
         }
