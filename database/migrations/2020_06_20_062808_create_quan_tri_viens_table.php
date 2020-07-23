@@ -19,7 +19,6 @@ class CreateQuanTriViensTable extends Migration
             $table->string('tai_khoan')->nullable();
             $table->string('mat_khau')->nullable();
             $table->string('email')->nullable();
-            $table->string('loai')->nullable();
             $table->string('fb_token')->nullable();
             $table->softDeletes();
             $table->timestamps();

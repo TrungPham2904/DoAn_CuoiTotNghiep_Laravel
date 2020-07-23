@@ -3,7 +3,7 @@
  * @OA\Post(
  *     tags={"Người Dùng"},
  *     path="/api/nguoi-dung/login",
- *     summary="Login",
+ *     summary="Login người dùng",
  *     operationId="dangNhapNguoiDung",
  *     @OA\RequestBody(
  *         @OA\MediaType(
@@ -47,29 +47,7 @@
  *     }
  * )
  */
-/**
- * @OA\Get(
- *     tags={"Người Dùng"},
- *     path="/api/nguoi-dung",
- *     summary="Danh Sách Phim",
- *     operationId="index",
- *     @OA\Response(
- *         response=200,
- *         description="OK",
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error server",
- *     ),
- *     security={
- *         {"bearerAuth": {}}
- *     }
- * )
- */
+
 /**
  * @OA\Post(
  *      tags={"Người Dùng"},
@@ -136,42 +114,6 @@
  */
 /**
  * @OA\Get(
- *     tags={"Tìm kiếm"},
- *     path="/api/nguoi-dung/tim-kiem",
- *     summary="Tìm kiếm theo nhu cầu",
- *     operationId="TiemKiem",
- *     @OA\RequestBody(
- *         @OA\MediaType(
- *             mediaType="multipart/form-data",
- *             @OA\Schema(
- *                 type="object",
- *                 @OA\Property(
- *                     property="key_word",
- *                     description="Tìm kiếm",
- *                     type="string",
- *                 ),
- *              ),
- *          ),
- *      ),
- *  @OA\Response(
- *         response=200,
- *         description="OK",
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error server",
- *     ),
- *     security={
- *         {"bearerAuth": {}}
- *     }
- * )
- */
-/**
- * @OA\Get(
  *     tags={"Chi Tiết Trang"},
  *     path="/api/nguoi-dung/{id}",
  *     summary="Thông tin chi tiết trang",
@@ -204,28 +146,90 @@
  *     }
  * )
  */
-  /**
- * @OA\Post(
- *     tags={"Phim"},
- *     path="/api/nguoi-dung/them-phim",
- *     summary="Cập nhật phim",
- *     operationId="TaoPhim",
- *      @OA\RequestBody(
- *         @OA\MediaType(
- *             mediaType="multipart/form-data",
- *             @OA\Schema(
- *                 type="object",
- *                 @OA\Property(
- *                     property="fileFilm",
- *                     description="Thêm file",
- *                     type="file",
- *                 ),
- *              ),
- *          ),
- *      ),
+/**
+ * @OA\Get(
+ *     tags={"Người Dùng"},
+ *     path="/api/nguoi-dung/tiem-kiem",
+ *     summary="Tiềm kiếm tất cả",
+ *     operationId="TiemKiem",
+ *     @OA\Parameter(
+ *         name="key_word",
+ *         in="query",
+ *         description="Find admin by keyword (ten_phim | dien_vien)",
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
+ /**
+ * @OA\Get(
+ *     tags={"Người Dùng"},
+ *     path="/api/admin",
+ *     summary="Danh sách người dùng",
+ *     operationId="index",
+ *      @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         description="Số lượng người trên trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Số trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="filter",
+ *         in="query",
+ *         description="Filter customer (ten | tai_khoan | email |fb_token)",
+ *         @OA\JsonContent(
+ *              type="object",
+ *              @OA\Property(
+ *                  property="ten",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="email",
+ *                  type="string",
+ *              ),
+ *              @OA\Property(
+ *                  property="tai_khoan",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="fb_token",
+ *                  type="string"
+ *              ),
+ *          ),
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="OK",
  *     ),
  *     @OA\Response(
  *         response=401,

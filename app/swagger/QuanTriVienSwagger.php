@@ -3,8 +3,52 @@
  * @OA\Get(
  *      tags={"Quản Trị Viên"},
  *      path="/api/quan-tri-vien",
- *      summary="Lấy danh sách quản trị viên",
+ *      summary="Danh sách quản trị viên",
  *      operationId="index",
+ *     @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         description="Số lượng quản trị viên trên trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Số trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="filter",
+ *         in="query",
+ *         description="Filter admin (ten | tai_khoan | email |fb_token)",
+ *         @OA\JsonContent(
+ *              type="object",
+ *              @OA\Property(
+ *                  property="ten",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="tai_khoan",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="email",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="fb_token",
+ *                  type="string"
+ *              ),
+ *          ),
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="OK",
@@ -26,7 +70,7 @@
  * @OA\Post(
  *     tags={"Quản Trị Viên"},
  *     path="/api/quan-tri-vien/login",
- *     summary="Login",
+ *     summary="Login supper-admin || admin",
  *     operationId="dangNhap",
  *     @OA\RequestBody(
  *         @OA\MediaType(
@@ -74,7 +118,7 @@
  * @OA\Post(
  *      tags={"Quản Trị Viên"},
  *      path="/api/quan-tri-vien/logout",
- *      summary="Logout",
+ *      summary="Logout người dùng || supper-admin || admin ",
  *      operationId="dangXuat",
  *      @OA\Response(
  *          response=200,
@@ -128,14 +172,6 @@
  *          name="email",
  *          in="query",
  *          description="Email",
- *          @OA\Schema(
- *              type="string"
- *          )
- *      ),
- * @OA\Parameter(
- *          name="loai",
- *          in="query",
- *          description="Loại",
  *          @OA\Schema(
  *              type="string"
  *          )

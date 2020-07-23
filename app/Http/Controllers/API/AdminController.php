@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\nguoi_dung;
 class AdminController extends Controller
 {
     
@@ -14,8 +14,8 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {     
+      //
     }
 
     /**
@@ -47,7 +47,6 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**

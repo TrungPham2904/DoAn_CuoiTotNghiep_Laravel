@@ -53,7 +53,7 @@ class PhimController extends Controller
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSach = phim::where('id','>',0);
+        $listDanhSach = phim::where('id','>',1);
         if(!empty($req->key_word)){
         $keyWord=$req->key_word;
         $listDanhSach->where(function($query) use ($keyWord){
@@ -61,11 +61,13 @@ class PhimController extends Controller
                   ->orWhere('dien_vien','like','%' .$keyWord. '%');          
         });
         }
+        
         $data=$listDanhSach->paginate($limit);
 
         return response()->json(
             [
               'message'=>'Tìm kiếm thành công',
+              'message_en'    => 'Find successful',
                'data'=>$data,
                'code'=>200   
             ]

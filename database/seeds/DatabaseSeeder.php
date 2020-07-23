@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         	NguoiDungSeeder::class,
         	PhimSeeder::class,
             QuocGiaSeeder::class,
-            QuanTriVienSeeder::class,
-            RolesAndPermissionsSeeder::class
+           
+            RolesAndPermissionsSeeder::class,
+            SupperAdminSeeder::class,
         ]);
     }
 }
