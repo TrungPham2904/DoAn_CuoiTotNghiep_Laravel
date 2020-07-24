@@ -15,7 +15,7 @@ class CreateLoaiPhimsTable extends Migration
     {
         Schema::create('loai_phims', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten')->nullable();;
+            $table->string('the_loai_phim')->nullable();;
             $table->softDeletes();
             $table->timestamps();
         });
