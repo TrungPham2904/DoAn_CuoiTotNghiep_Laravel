@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class QuocGiaSeeder extends Seeder
+class KieuPhimSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +11,8 @@ class QuocGiaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('quoc_gias')->insert([
-        	['ten_quoc_gia'=>'Việt Nam']
+        DB::table('kieu_phims')->insert([
+        	['kieu_phim'=>'Phim Bộ'],['kieu_phim'=>'Phim lẻ']
         ]);
     }
 }

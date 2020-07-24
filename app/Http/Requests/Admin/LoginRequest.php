@@ -25,16 +25,14 @@ class LoginRequest extends FormRequest
     {
         return [
             'email'     => 'bail|required|regex:/^[\w\.]{1,32}@[a-z\d]{2,}(\.[a-z\d]{2,4}){1,2}$/',
-            'password'  => 'bail|required|min:6|max:20',
+            'mat_khau'  => 'bail|required|min:6|max:20',
         ];
     }
     public function messages() {
         return [
             'email.required'    => 'Vui lòng nhập email - Please enter the email',
-            'password.required' => 'Vui lòng nhập mật khẩu - Please enter the password',
+            'mat_khau.required' => 'Vui lòng nhập mật khẩu - Please enter the password',
             'email.regex'       => 'Email không đúng định dạng - The email field is invalid',
-            'password.min'      => 'Mật khẩu tối thiểu 6 ký tự - Password is not less than 6 characters',
-            'password.max'      => 'Mật khẩu tối đa 20 ký tự - Password must not exceed 20 characters',
         ];
     }
 }
