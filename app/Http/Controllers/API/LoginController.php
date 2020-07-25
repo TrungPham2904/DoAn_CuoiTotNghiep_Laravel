@@ -12,15 +12,7 @@ class LoginController extends Controller
 {
     public function dangNhap(Request $req)
     {
-        $valid = new LoginRequest;
-        $validation = Validator::make($req->all(), $valid->rules(), $valid->messages());
-        $msgError = $validation->messages()->first();
-        if ($validation->fails()) {
-            return response()->json([
-                'message'   => $msgError,
-                'code'      => 417
-            ]);
-        }
+       
     	$credentials= [
     		'email' => $req->email,
 			'password' => $req->mat_khau
@@ -54,15 +46,7 @@ class LoginController extends Controller
     }
     public function dangNhapNguoiDung(Request $req)
     {
-        $valid = new LoginRequest;
-        $validation = Validator::make($req->all(), $valid->rules(), $valid->messages());
-        $msgError = $validation->messages()->first();
-        if ($validation->fails()) {
-            return response()->json([
-                'message'   => $msgError,
-                'code'      => 417
-            ]);
-        }
+        
     	$credentials= [
     		'email' => $req->email,
 			'password' => $req->mat_khau

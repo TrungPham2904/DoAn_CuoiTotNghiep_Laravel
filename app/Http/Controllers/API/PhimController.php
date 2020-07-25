@@ -53,7 +53,7 @@ class PhimController extends Controller
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSach = phim::where('id','>',1);
+        $listDanhSach = phim::where('id','>',0);
         if(!empty($req->key_word)){
         $keyWord=$req->key_word;
         $listDanhSach->where(function($query) use ($keyWord){

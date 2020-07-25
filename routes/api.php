@@ -44,8 +44,9 @@ Route::group(['prefix' => 'nguoi-dung'], function () {
        
 });
 Route::group(['prefix' => 'admin'], function () {
+        Route::get('','API\NguoiDungController@index');
+
         Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
-                Route::get('','API\NguoiDungController@index');
         }); 
 
 });
