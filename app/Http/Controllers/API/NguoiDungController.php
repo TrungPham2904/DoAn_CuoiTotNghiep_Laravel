@@ -92,7 +92,8 @@ class NguoiDungController extends Controller
                     ->givePermissionTo('xem_tai');
         return response()->json([
             'message'=>'Thêm thành công người dùng',
-            'code'=>404
+            'code'=>200,
+            'data'          => $quantrivien
         ]);
     }
 
@@ -126,7 +127,7 @@ class NguoiDungController extends Controller
             return response()->json([
                 'message'   => 'Lấy chi tiết thông tin người dùng thành công!',
                 'code'      => 200,
-                'data'      => $quanTriVien
+                'data'      => $nguoiDung
             ]);
         }
         return response()->json([

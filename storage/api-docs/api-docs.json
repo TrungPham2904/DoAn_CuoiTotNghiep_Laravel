@@ -7,6 +7,138 @@
     },
     "paths": {
         "/": {},
+        "/api/dien-vien": {
+            "get": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Danh sách diễn viên",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng diễn viên trên trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dien-vien/them-dienvien": {
+            "post": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Thêm diễn viên ",
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "ten_dien_vien",
+                        "in": "query",
+                        "description": "Tên diễn viên",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nam_sinh",
+                        "in": "query",
+                        "description": "Năm sinh",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gioi_tinh",
+                        "in": "query",
+                        "description": "Giới tính",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "chieu_cao",
+                        "in": "query",
+                        "description": "Chiều cao",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "quoc_tich",
+                        "in": "query",
+                        "description": "Quốc tịch",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tieu_su",
+                        "in": "query",
+                        "description": "Tiểu sử",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "anh_dai_dien",
+                        "in": "query",
+                        "description": "Ảnh đại diện",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/nguoi-dung/login": {
             "post": {
                 "tags": [
@@ -300,28 +432,141 @@
                 ]
             }
         },
-        "/api/nguoi-dung/them-phim": {
+        "/api/phim/them-phim": {
             "post": {
                 "tags": [
                     "Phim"
                 ],
                 "summary": "Thêm phim ",
-                "operationId": "TaoPhim",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "fileFilm": {
-                                        "description": "Thêm file",
-                                        "type": "file"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "ten_phim",
+                        "in": "query",
+                        "description": "Tên phim",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "poster",
+                        "in": "query",
+                        "description": "Poster",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "loai_phim_id",
+                        "in": "query",
+                        "description": "Loại phim id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "quoc_gia_id",
+                        "in": "query",
+                        "description": "Quốc gia id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "kieu_phim_id",
+                        "in": "query",
+                        "description": "Kiểu phim id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "thoi_luong",
+                        "in": "query",
+                        "description": "Thời lượng",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dien_vien_id",
+                        "in": "query",
+                        "description": "Diễn viên id",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "link_server",
+                        "in": "query",
+                        "description": "Link Server",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "link_trailer",
+                        "in": "query",
+                        "description": "Link Trailer",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nam_san_xuat",
+                        "in": "query",
+                        "description": "Năm sản xuất",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tieu_de",
+                        "in": "query",
+                        "description": "Tiêu đề",
+                        "schema": {
+                            "type": "string"
                         }
                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
                 },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/phim/{id}": {
+            "get": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Thông tin chi tiết phim",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phim",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
