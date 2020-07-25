@@ -89,7 +89,7 @@ class QuanTriVienController extends Controller
         $quantrivien->ten =$req->ten;
         $quantrivien->tai_khoan=$req->tai_khoan;
         $quantrivien->mat_khau=Hash::make($req->mat_khau);
-        $quantrivien->email=$req->email;
+        $quantrivien->email=$email;
         $quantrivien->fb_token=$req->fb_token;
         $quantrivien->save();
         $quantrivien->assignRole($role->name)

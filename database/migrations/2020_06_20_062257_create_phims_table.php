@@ -22,11 +22,11 @@ class CreatePhimsTable extends Migration
             $table->string('kieu_phim_id')->nullable();
             $table->string('thoi_luong')->nullable();
             $table->string('trailer')->nullable();
-            $table->string('dien_vien')->nullable();
             $table->string('dao_dien')->nullable();
             $table->string('link_server')->nullable();
             $table->string('link_trailer')->nullable(); 
             $table->string('nam_san_xuat')->nullable();
+            $table->string('tieu_de')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -15,13 +15,13 @@ class CreateDienViensTable extends Migration
     {
         Schema::create('dien_viens', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten');
-            $table->string('nam_sinh');
-            $table->string('gioi_tinh');
-            $table->integer('chieu_cao');
-            $table->string('quoc_tich');
-            $table->string('tieu_su');
-            $table->string('anh_dai_dien'); 
+            $table->string('ten_dien_vien')->nullable();
+            $table->string('nam_sinh')->nullable();
+            $table->string('gioi_tinh')->nullable();
+            $table->integer('chieu_cao')->nullable();
+            $table->string('quoc_tich')->nullable();
+            $table->string('tieu_su')->nullable();
+            $table->string('anh_dai_dien')->nullable(); 
             $table->timestamps(); 
             $table->softDeletes(); 
         });

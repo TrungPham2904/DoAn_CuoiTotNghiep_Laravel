@@ -40,7 +40,7 @@ Route::group(['prefix' => 'nguoi-dung'], function () {
         });     
         Route::get('tiem-kiem','API\PhimController@TiemKiem');
         Route::get('{id}','API\PhimController@ChiTietTrang');
-        Route::post('them-phim','API\PhimController@TaoPhim');
+        
        
 });
 Route::group(['prefix' => 'admin'], function () {
@@ -49,10 +49,19 @@ Route::group(['prefix' => 'admin'], function () {
         }); 
 
 });
-
-Route::prefix('phim')->group(function(){
+Route::group(['prefix' => 'phim'], function () {
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
         Route::get('','API\PhimController@layDanhSach');
-      
+        Route::post('them-phim','API\PhimController@create');
+        Route::get('{id}','API\PhimController@show');
+        }); 
+});
+Route::group(['prefix' => 'dien-vien'], function () {
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
+                Route::get('','API\DienVienController@index');
+                Route::post('them-dienvien','API\DienVienController@create');
+
+        });
 });
 
 
