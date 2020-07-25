@@ -12,7 +12,7 @@ class LoaiPhimSeeder extends Seeder
     public function run()
     {
         DB::table('loai_phims')->insert([
-        	['ten'=>'Phim kinh dị'],['ten'=>'Song hổn']
+        	['the_loai_phim'=>'Phim kinh dị'],['the_loai_phim'=>'Song hổn']
         ]);
     }
 }

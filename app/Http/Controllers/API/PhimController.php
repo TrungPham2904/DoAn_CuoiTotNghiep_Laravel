@@ -14,21 +14,12 @@ class PhimController extends Controller
             $limit=$req->limit;
         }
         $listDanhSach = phim::where('id','>',0);
-        if(!empty($req->quoc_gia_id)){
-            $quocgiatheoid=$req->quoc_gia_id;
-            $listDanhSach->whereHas('Quocgia', function (Builder $query) use ($quocgiatheoid) {
-                $query->where('id',$quocgiatheoid);
-        });
-        }
+        
         // if(!empty($req->loai_phim_id)){
         //      $loaiphimid=$req->loai_phim_id;
         //      $listDanhSach->whereHas('Loaiphim',function (Builder $query) use ($loaiphimid){
         //         $query->where('id',$loaiphimid);
         //      });
-        if(!empty($req->loai_phim_id))
-        {
-            $listDanhSach=where('loai_phim_id','like','%' .$req->loai_phim_id. '%');
-        }
         if(!empty($req->kieu_phim_id))
         {
              $listDanhSach=where('kieu_phim_id','like','%' .$req->kieu_phim_id. '%');
@@ -38,6 +29,7 @@ class PhimController extends Controller
             $listDanhSach=where('nam_san_xuat','like','%' .$req->nam_san_xuat. '%');
         }
         $data=$listDanhSach->paginate($limit);
+
 
         return response()->json(
             [

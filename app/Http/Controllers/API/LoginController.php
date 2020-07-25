@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Validator;
 use App\quan_tri_vien;
 use App\nguoi_dung;
 use App\Http\Requests\Admin\LoginRequest;

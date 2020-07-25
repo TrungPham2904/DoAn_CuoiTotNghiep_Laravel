@@ -15,7 +15,7 @@ class CreateQuocGiasTable extends Migration
     {
         Schema::create('quoc_gias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten')->nullable();
+            $table->string('ten_quoc_gia')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
