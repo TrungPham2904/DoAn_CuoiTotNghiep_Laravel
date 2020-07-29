@@ -54,6 +54,7 @@ Route::group(['prefix' => 'phim'], function () {
         Route::get('','API\PhimController@layDanhSach');
         Route::post('them-phim','API\PhimController@create');
         Route::get('{id}','API\PhimController@show');
+        Route::post('{id}','API\PhimController@update');
         }); 
 });
 Route::group(['prefix' => 'dien-vien'], function () {

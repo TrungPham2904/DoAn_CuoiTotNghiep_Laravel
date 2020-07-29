@@ -21,7 +21,6 @@ class CreatePhimsTable extends Migration
             $table->string('quoc_gia_id')->nullable();
             $table->string('kieu_phim_id')->nullable();
             $table->string('thoi_luong')->nullable();
-            $table->string('trailer')->nullable();
             $table->string('dao_dien')->nullable();
             $table->string('link_server')->nullable();
             $table->string('link_trailer')->nullable(); 
