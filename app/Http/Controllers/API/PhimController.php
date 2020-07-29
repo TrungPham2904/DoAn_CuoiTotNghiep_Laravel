@@ -9,6 +9,7 @@ use App\Http\Requests\Phim\AddNewRequest;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\phim;
+use App\Helpers\UploadFile;
 use App\chi_tiet_dien_vien;
 use App\dien_vien;
 
@@ -135,7 +136,6 @@ class PhimController extends Controller
         $phim = new phim;
         $chitietDienVien= new chi_tiet_dien_vien; 
         $phim->ten_phim=$req->ten_phim;
-        $phim->poster=$req->poster;
         $phim->loai_phim_id=$req->loai_phim_id;      
         $phim->quoc_gia_id=$req->quoc_gia_id;
         $phim->kieu_phim_id=$req->kieu_phim_id;
@@ -146,6 +146,11 @@ class PhimController extends Controller
         $phim->nam_san_xuat=$req->nam_san_xuat;
         $phim->tieu_de = $req->tieu_de;
         $phim->save();
+        if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
+            $img = $req->poster;
+            $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
+            phim::whereId($phim->id)->update(['poster' => $nameFile]);
+        }
         $chitietDienVien->phim_id=$phim->id;
         $chitietDienVien->save();
         return response()->json([
@@ -202,9 +207,59 @@ class PhimController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, $id)
     {
-        
+        $phim = phim::find($id);
+        $chitietDienVien=chi_tiet_dien_vien::find($id); 
+        if(empty($phim)){
+          return response()->json([
+              'message'   => 'Không tìm thấy thông tin phim tương ứng',
+              'code'      => 404
+          ]);
+        }
+        if (isset($req->ten_phim) && !empty($req->ten_phim)) {
+          if ($req->ten_phim != $phim->ten_phim) {
+              $existsTenPhim = phim::whereTenPhim($req->ten_phim)
+                                 ->first();
+              if (!empty($existsTenPhim)) {
+                  return response()->json([
+                      'message_vn'    => 'Tên phim đã tồn tại',
+                      'message_en'    => 'Film already exists',
+                      'code'          => 417
+                  ]);
+              }
+          }
+           $phim->ten_phim =$req->ten_phim;
+      }
+      
+        $phim->ten_phim=$req->ten_phim;
+        $phim->loai_phim_id=$req->loai_phim_id;      
+        $phim->quoc_gia_id=$req->quoc_gia_id;
+        $phim->kieu_phim_id=$req->kieu_phim_id;
+        $phim->thoi_luong=$req->thoi_luong;
+        $chitietDienVien->dien_vien_id=$req->dien_vien_id;
+        $phim->link_server=$req->link_server;
+        $phim->link_trailer=$req->link_trailer;
+        $phim->nam_san_xuat=$req->nam_san_xuat;
+        $phim->tieu_de = $req->tieu_de;
+        $phim->save();
+        if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
+            $img = $req->poster;
+            $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
+            phim::whereId($phim->id)->update(['poster' => $nameFile]);
+        }
+        $chitietDienVien->phim_id=$phim->id;
+        $chitietDienVien->save();
+        return response()->json([
+          'message_vn'    => 'Cập nhật thành công',
+          'message_en'    => 'Update successful',
+          'code'=>200,
+          'date'=>$phim
+      ]);
+          return response()->json([
+              'message'   => 'Bạn không thể thực hiện chức năng này',
+              'code'      => 403
+          ]);
     }
 
     /**

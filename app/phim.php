@@ -15,6 +15,7 @@ class phim extends Model
     protected $table = 'phims';
     protected $appends = ['ten_quoc_gia','the_loai_phim','kieu_phim'];
     protected $hidden = ['quoc_gia_id','loai_phim_id','kieu_phim_id'];
+    protected $fillable = ['poster'];
 
     // public function getTenDienVienAttribute($id)
     // {
