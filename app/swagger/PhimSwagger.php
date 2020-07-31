@@ -239,3 +239,94 @@
  *     }
  * )
  */
+/**
+ * @OA\Get(
+ *     tags={"Phim"},
+ *     path="/api/phim/xoa-phim/{id}",
+ *     summary="Xóa thông tin phim",
+ *     operationId="destroy",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID của phim",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
+/**
+ * @OA\Get(
+ *     tags={"Phim"},
+ *     path="/api/phim/ds-xoa-phim",
+ *     summary="Danh sách phim đã xóa",
+ *     operationId="danhSachPhimDaXoa",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
+/**
+ * @OA\Get(
+ *     tags={"Phim"},
+ *     path="/api/phim/khoi-phuc-phim/{id}",
+ *     summary="Cập nhật thông tin phim đã xóa phim",
+ *     operationId="khoiPhucPhimDaXoa",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID của phim",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */

@@ -125,7 +125,7 @@ class QuanTriVienController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' ) {
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien') {
             $quanTriVien = quan_tri_vien::find($id);
             if(empty($quanTriVien)){
                 return response()->json([
@@ -169,7 +169,7 @@ class QuanTriVienController extends Controller
     public function update(Request $req,$id)
     {
         
-        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin')
+        if(JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien')
         {
         $valid = new UpdateRequest;
         $validation = Validator::make($req->all(), $valid->rules(), $valid->messages());
