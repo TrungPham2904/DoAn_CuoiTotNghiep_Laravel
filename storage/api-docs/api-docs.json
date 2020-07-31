@@ -117,7 +117,221 @@
                         "in": "query",
                         "description": "Ảnh đại diện",
                         "schema": {
-                            "type": "string"
+                            "type": "file"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dien-vien/{id}": {
+            "get": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Thông tin chi tiết diễn viên",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của diễn viên    ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Cập nhật thông tin diễn viên",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của diễn viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "ten_dien_vien": {
+                                        "description": "Tên diên viên",
+                                        "type": "string"
+                                    },
+                                    "anh_dai_dien": {
+                                        "description": "Ảnh đại diện",
+                                        "type": "file"
+                                    },
+                                    "nam_sinh": {
+                                        "description": "Năm sinh",
+                                        "type": "string"
+                                    },
+                                    "gioi_tinh": {
+                                        "description": "Giới tính",
+                                        "type": "string"
+                                    },
+                                    "chieu_cao": {
+                                        "description": "Chiểu cao",
+                                        "type": "string"
+                                    },
+                                    "quoc_tich": {
+                                        "description": "Quốc tịch",
+                                        "type": "string"
+                                    },
+                                    "tieu_su": {
+                                        "description": "Tiểu sử",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dien-vien/xoa-dienvien/{id}": {
+            "get": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Xóa thông tin diễn viên",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của diễn viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dien-vien/ds-xoa-dienvien": {
+            "get": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Danh sách diễn viên đã xóa",
+                "operationId": "danhSachDienVienDaXoa",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/dien-vien/khoi-phuc-dienvien/{id}": {
+            "get": {
+                "tags": [
+                    "Diễn viên"
+                ],
+                "summary": "Cập nhật thông tin diễn viên đã xóa phim",
+                "operationId": "khoiPhucDienVienDaXoa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của diễn viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
                         }
                     }
                 ],
@@ -623,6 +837,107 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/phim/xoa-phim/{id}": {
+            "get": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Xóa thông tin phim",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phim",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/phim/ds-xoa-phim": {
+            "get": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Danh sách phim đã xóa",
+                "operationId": "danhSachPhimDaXoa",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/phim/khoi-phuc-phim/{id}": {
+            "get": {
+                "tags": [
+                    "Phim"
+                ],
+                "summary": "Cập nhật thông tin phim đã xóa phim",
+                "operationId": "khoiPhucPhimDaXoa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của phim",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"

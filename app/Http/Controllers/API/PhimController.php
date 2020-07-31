@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Phim\AddNewRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\phim;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\UploadFile;
 use App\chi_tiet_dien_vien;
 use App\dien_vien;
@@ -135,7 +137,20 @@ class PhimController extends Controller
         }
         $phim = new phim;
         $chitietDienVien= new chi_tiet_dien_vien; 
-        $phim->ten_phim=$req->ten_phim;
+        if (isset($req->ten_phim) && !empty($req->ten_phim)) {
+            if ($req->ten_phim != $phim->ten_phim) {
+                $existsTenPhim = phim::whereTenPhim($req->ten_phim)
+                                   ->first();
+                if (!empty($existsTenPhim)) {
+                    return response()->json([
+                        'message_vn'    => 'Tên phim đã tồn tại',
+                        'message_en'    => 'Name film already exists',
+                        'code'          => 417
+                    ]);
+                }
+            }
+            $phim->ten_phim=$req->ten_phim;
+        }      
         $phim->loai_phim_id=$req->loai_phim_id;      
         $phim->quoc_gia_id=$req->quoc_gia_id;
         $phim->kieu_phim_id=$req->kieu_phim_id;
@@ -180,9 +195,9 @@ class PhimController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id ) {
-            $Phim = phim::find($id);
-            if(empty($Phim)){
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
+            $phim = phim::find($id);
+            if(empty($phim)){
                 return response()->json([
                     'message'   => 'Không tìm thấy thông tin phim tương ứng',
                     'code'      => 404
@@ -191,7 +206,7 @@ class PhimController extends Controller
             return response()->json([
                 'message'   => 'Lấy chi tiết thông tin phim thành công!',
                 'code'      => 200,
-                'data'      => $Phim
+                'data'      => $phim
             ]);
         }
         return response()->json([
@@ -209,6 +224,15 @@ class PhimController extends Controller
      */
     public function update(Request $req, $id)
     {
+        $valid = new AddNewRequest;
+        $validation = Validator::make($req->all(), $valid->rules(), $valid->messages());
+        $msgError = $validation->messages()->first();
+        if ($validation->fails()) {
+            return response()->json([
+                'message'   => $msgError,
+                'code'      => 417
+            ]);
+        }
         $phim = phim::find($id);
         $chitietDienVien=chi_tiet_dien_vien::find($id); 
         if(empty($phim)){
@@ -219,8 +243,7 @@ class PhimController extends Controller
         }
         if (isset($req->ten_phim) && !empty($req->ten_phim)) {
           if ($req->ten_phim != $phim->ten_phim) {
-              $existsTenPhim = phim::whereTenPhim($req->ten_phim)
-                                 ->first();
+              $existsTenPhim = phim::whereTenPhim($req->ten_phim)->first();
               if (!empty($existsTenPhim)) {
                   return response()->json([
                       'message_vn'    => 'Tên phim đã tồn tại',
@@ -231,8 +254,6 @@ class PhimController extends Controller
           }
            $phim->ten_phim =$req->ten_phim;
       }
-      
-        $phim->ten_phim=$req->ten_phim;
         $phim->loai_phim_id=$req->loai_phim_id;      
         $phim->quoc_gia_id=$req->quoc_gia_id;
         $phim->kieu_phim_id=$req->kieu_phim_id;
@@ -270,6 +291,50 @@ class PhimController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
+        $phim = phim::find($id);
+        $phim->delete();
+        return response()->json([
+            'message_vn'    => 'Xóa thành thành công',
+            'message_en'    => 'Delete successful',
+            'code'=>200,
+            'date'=>$phim
+        ]);
     }
+    return response()->json([
+        'message'   => 'Bạn không thể thực hiện chức năng này',
+        'code'      => 403
+    ]);
+    }
+
+    public function danhSachPhimDaXoa()
+    {
+       
+        $phim=phim::onlyTrashed()->get();
+        return response()->json([
+            'message_vn'    => 'Lấy danh sách xóa thành công',
+            'message_en'    => 'List delete successful',
+            'code'=>200,
+            'date'=>$phim
+        ]);
+    }
+
+    public function khoiPhucPhimDaXoa($id)
+    {
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
+        $phim=phim::onlyTrashed()->find($id);
+        $phim->restore();
+        return response()->json([
+            'message_vn'    => 'Khôi phục thành công',
+            'message_en'    => 'Restore successful',
+            'code'=>200,
+            'date'=>$phim
+        ]);
+    }
+    return response()->json([
+        'message'   => 'Bạn không thể thực hiện chức năng này',
+        'code'      => 403
+    ]);
+    }
+
 }
