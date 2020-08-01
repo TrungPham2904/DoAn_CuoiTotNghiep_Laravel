@@ -14,7 +14,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
         	LoaiPhimSeeder::class,
         	NguoiDungSeeder::class,
-        	PhimSeeder::class,
+            PhimSeeder::class,
+            ChiTietDienVienSeeder::class,
+            DienVienSeeder::class,
             QuocGiaSeeder::class,
             KieuPhimSeeder::class,
             RolesAndPermissionsSeeder::class,

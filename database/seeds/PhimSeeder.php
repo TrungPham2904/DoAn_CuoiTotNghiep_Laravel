@@ -17,8 +17,8 @@ class PhimSeeder extends Seeder
             'quoc_gia_id'=>1,
             'kieu_phim_id'=>2,
             'thoi_luong'=>60,
-            'link_server'=>'https://drive.google.com/file/d/1Y2HUkICo5-vogbghqH1sjQdxkizS1LfP/view?usp=sharing',
-        	'dien_vien'=>'Văn Thịnh']
+            'link_server'=>'https://drive.google.com/file/d/1Y2HUkICo5-vogbghqH1sjQdxkizS1LfP/view?usp=sharing'
+            ]
         ]);
     }
 }
