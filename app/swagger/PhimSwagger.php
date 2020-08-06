@@ -5,6 +5,50 @@
  *     path="/api/phim",
  *     summary="Danh Sách Phim",
  *     operationId="layDanhSach",
+ *     @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         description="Số lượng phim viên trên trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Số trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1
+ *         )
+ *     ),
+ * *     @OA\Parameter(
+ *         name="filter",
+ *         in="query",
+ *         description="Filter film",
+ *         @OA\JsonContent(
+ *              type="object",
+ *              @OA\Property(
+ *                  property="the_loai_phim",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="ten_quoc_gia",
+ *                  type="string"
+ *              ),
+ *               @OA\Property(
+ *                  property="kieu_phim",
+ *                  type="string"
+ *              ),
+ *              @OA\Property(
+ *                  property="nam_san_xuat",
+ *                  type="string"
+ *              ),
+ *          ),
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="OK",
@@ -66,6 +110,11 @@
  *                  @OA\Property(
  *                     property="dien_vien_id",
  *                     description="Diễn viên id",
+ *                     type="string",
+ *                 ),
+ *                  @OA\Property(
+ *                     property="dao_dien",
+ *                     description="Đạo diễn",
  *                     type="string",
  *                 ),
  *                  @OA\Property(
@@ -240,7 +289,7 @@
  * )
  */
 /**
- * @OA\Get(
+ * @OA\Delete(
  *     tags={"Phim"},
  *     path="/api/phim/xoa-phim/{id}",
  *     summary="Xóa thông tin phim",
@@ -297,7 +346,7 @@
  * )
  */
 /**
- * @OA\Get(
+ * @OA\Post(
  *     tags={"Phim"},
  *     path="/api/phim/khoi-phuc-phim/{id}",
  *     summary="Cập nhật thông tin phim đã xóa phim",
@@ -330,3 +379,4 @@
  *     }
  * )
  */
+

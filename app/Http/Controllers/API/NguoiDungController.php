@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\nguoi_dung;
 use App\phim;
+// use Analytics;
+// use Spatie\Analytics\Period;
 
 
 class NguoiDungController extends Controller
@@ -22,29 +24,31 @@ class NguoiDungController extends Controller
      */
     public function index()
     {
+        // $data=Analytics::fetchMostVisitedPages(Period::days(7));
+        // var_dump($data);
+        // exit;
         $limit=20;
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSachQuanTriVien = nguoi_dung::where('id','>',0);
+        $listDanhSachNguoiDung = nguoi_dung::where('id','>',0);
         if(!empty($req->ten))
         {
-            $listDanhSachQuanTriVien=where('ten','like','%' .$req->ten. '%');
+            $listDanhSachNguoiDung=where('ten','like','%' .$req->ten. '%');
         }
         if(!empty($req->tai_khoan))
         {
-            $listDanhSachQuanTriVien=where('tai_khoan','like','%' .$req->tai_khoan. '%');
+            $listDanhSachNguoiDung=where('tai_khoan','like','%' .$req->tai_khoan. '%');
         }
         if(!empty($req->email))
         {
-            $listDanhSachQuanTriVien=where('email','like','%' .$req->email. '%');
+            $listDanhSachNguoiDung=where('email','like','%' .$req->email. '%');
         }
         if(!empty($req->fb_token))
         {
-            $listDanhSachQuanTriVien=where('fb_token','like','%' .$req->fb_token. '%');
+            $listDanhSachNguoiDung=where('fb_token','like','%' .$req->fb_token. '%');
         }
-        $data=$listDanhSachQuanTriVien->paginate($limit);
-
+        $data=$listDanhSachNguoiDung->paginate($limit);
         return response()->json(
             [
               'message'=>'Lấy danh sách thành công',
@@ -53,7 +57,14 @@ class NguoiDungController extends Controller
             ]
         );
     }
+    public function soLuongNguoiTruyCap()
+    {
+        $listDanhSachNguoiTruyCap=nguoi_dung::Where('id','>','0');
+        // $listDanhSachNguoiTruyCap++;
+        // $listDanhSachNguoiTruyCap->save();
+       echo $listDanhSachNguoiTruyCap;
 
+    }
     /**
      * Show the form for creating a new resource.
      *

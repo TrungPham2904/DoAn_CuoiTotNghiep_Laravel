@@ -15,7 +15,7 @@ class NguoiDungSeeder extends Seeder
         	'tai_khoan' => 'trung',
         	'mat_khau' => Hash::make('123'),
         	'email' => 'khactrung123@gmail.com',
-        	'fb_token' => 'trungpham']       	
+        	'so_luong' => '10']       	
         ]);
     }
 }

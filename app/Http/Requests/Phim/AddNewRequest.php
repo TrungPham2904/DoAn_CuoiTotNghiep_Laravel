@@ -32,7 +32,7 @@ class AddNewRequest extends FormRequest
             'dien_vien_id' =>'bail|integer',
             'link_server' =>'bail|required|url',
             'link_trailer' =>'bail|required|url',
-            // 'nam_san_xuat' =>'bail|required|date_format:format:Y',
+            'nam_san_xuat' =>'bail|required|date_format:Y-m-d',
             'tieu_de' =>'bail|max:1000|required',
             'poster'  => 'bail|required|nullable|image|mimes:jpg,png,jpeg',
             // 'phim_id' =>'bail|required|integer',
@@ -41,7 +41,7 @@ class AddNewRequest extends FormRequest
     }
     public function messages() {
         return [
-            'ten_phim.regex'   => 'Tên phim không đươc chứa ký tự đặc biệt hoặc số - The film format is invalid',
+            'ten_phim.regex'   => 'Tên phim không đươc chứa ký tự đặc biệt hoặc số ',
             'ten_phim.required' =>'Tên phim không được bỏ trống',
             'loai_phim_id.required' => 'Loại phim id không được bỏ trống',
             'loai_phim_id.integer' => 'Loại phim id chỉ được nhập số ',
@@ -51,12 +51,12 @@ class AddNewRequest extends FormRequest
             'dien_vien_id.integer' =>'Diễn viên id chỉ được nhập số',
             'link_server.required' =>'Link server không được bỏ trống',
             'link_trailer.required' =>'Link server không được bỏ trống',
-            // 'nam_san_xuat.date_format' =>'Năm sản xuất không đúng định dạng',
+            'nam_san_xuat.date_format' =>'Năm sản xuất không đúng định dạng',
             'tieu_de.required' => 'Tiêu đề không được bỏ trống',
             'tieu_đề.max' =>'Tiêu đề tối đa 1000 kí tự',
-            'poster.image'  => 'Hình đại diện không đúng định dạng - The avatar must be an image',
-            'poster.mimes'  => 'Hình đại diện phải là: png, jpg, jpeg - The avatar must be a file of type: jpg, png, jpeg',
-            'poster.required' => 'Vui lòng chọn poster - Please enter the poster',
+            'poster.image'  => 'Hình đại diện không đúng định dạng ',
+            'poster.mimes'  => 'Hình đại diện phải là: png, jpg, jpeg',
+            'poster.required' => 'Vui lòng chọn poster',
             // 'phim_id.integer' =>'Phim id chỉ được nhập số',
 
 

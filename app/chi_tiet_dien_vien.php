@@ -8,11 +8,13 @@ use App\phim;
 class chi_tiet_dien_vien extends Model
 {
     protected $table = 'chi_tiet_dien_viens';
-    protected $appends = ['ten_dien_vien','ten_phim'];
-    public function getTenDienVienAttribute()
+    protected $appends = ['dien_vien','ten_phim'];
+
+
+    public function getDienVienAttribute()
     {
         $dienVien =dien_vien::where('id', $this->dien_vien_id)->get();
-        return $dienVien[0]->ten_dien_vien;
+        return $dienVien[0]->dien_vien;
     }
     public function Tendienvien()
     {
@@ -27,6 +29,9 @@ class chi_tiet_dien_vien extends Model
     {
         return $this->belongsTo('App\phim','phim_id','id');
     }
-
+    public function DienVien()
+    {
+        return $this->belongsTo('App\dien_vien','dien_vien_id','id');
+    }
     
 }
