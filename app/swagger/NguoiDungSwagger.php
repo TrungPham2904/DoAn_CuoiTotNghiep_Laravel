@@ -244,4 +244,27 @@
  *     }
  * )
  */
+/**
+ * @OA\Get(
+ *     tags={"Người Dùng"},
+ *     path="/api/nguoi-dung/test",
+ *     summary="Test",
+ *     operationId="soLuongNguoiTruyCap",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
 

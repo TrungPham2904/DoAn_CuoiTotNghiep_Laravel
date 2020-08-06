@@ -9,6 +9,7 @@ use App\Http\Requests\Phim\AddNewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Database\Eloquent\Builder;
 use App\phim;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Helpers\UploadFile;
@@ -23,31 +24,47 @@ class PhimController extends Controller
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSach = phim::where('id','>',0);
-        
-        // if(!empty($req->loai_phim_id)){
-        //      $loaiphimid=$req->loai_phim_id;
-        //      $listDanhSach->whereHas('Loaiphim',function (Builder $query) use ($loaiphimid){
-        //         $query->where('id',$loaiphimid);
-        //      });
-        if(!empty($req->kieu_phim_id))
-        {
-             $listDanhSach=where('kieu_phim_id','like','%' .$req->kieu_phim_id. '%');
+        $filter = json_decode($req->filter, true);
+        $listDanhSach = phim::where('phims.id','>',0);
+        if(!empty($filter['the_loai_phim'])){
+             $theLoaiPhim=$filter['the_loai_phim'];
+             $listDanhSach->whereHas('LoaiPhim',function (Builder $query) use ($theLoaiPhim){
+                $query->where('the_loai_phim',$theLoaiPhim);
+             });
+         }
+         if(!empty($filter['ten_quoc_gia'])){
+            $tenQuocGia=$filter['ten_quoc_gia'];
+            $listDanhSach->whereHas('Quocgia',function (Builder $query) use ($tenQuocGia){
+               $query->where('ten_quoc_gia',$tenQuocGia);
+            });
         }
-        if(!empty($req->nam_san_xuat))
-        {
-            $listDanhSach=where('nam_san_xuat','like','%' .$req->nam_san_xuat. '%');
+        if(!empty($filter['kieu_phim'])){
+            $kieuPhim=$filter['kieu_phim'];
+            $listDanhSach->whereHas('KieuPhim',function (Builder $query) use ($kieuPhim){
+               $query->where('kieu_phim',$kieuPhim);
+            });
         }
+        if(!empty($filter['nam_san_xuat'])){
+            $listDanhSach->whereYear('nam_san_xuat',$filter['nam_san_xuat'])->get();
+        }
+        // $listDanhSach->with(['ChiTietDienVien' => function($query){
+        //     $query->with(['DienVien' => function($query){
+        //         $query->select('id','ten_dien_vien');
+        //     }]);
+        // }]);  
+        $listDanhSach->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
+                    ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
+                    ->select('phims.*','dv.ten_dien_vien'); 
+        $listDanhSach->orderByDesc('updated_at');
         $data=$listDanhSach->paginate($limit);
+            // print_r($data);exit;
+            $customMess = collect([
+                'message'   => 'Lấy danh sách thành công',
+                'code'      => 200
+            ]);
+            $result = $customMess->merge($data);
+            return response()->json($result);
 
-
-        return response()->json(
-            [
-              'message'=>'Lấy danh sách thành công',
-               'data'=>$data,
-               'code'=>200   
-            ]
-        );
     }
     public function TiemKiem(Request $req)
 	{
@@ -55,12 +72,11 @@ class PhimController extends Controller
         if(isset($req->limit) && !empty($req->limit)){
             $limit=$req->limit;
         }
-        $listDanhSach = phim::where('id','>',0);
+        $listDanhSach = phim::where('id','>',0);         
         if(!empty($req->key_word)){
         $keyWord=$req->key_word;
         $listDanhSach->where(function($query) use ($keyWord){
-            $query->where('ten_phim','like','%' .$keyWord. '%')
-                  ->orWhere('dien_vien','like','%' .$keyWord. '%');          
+            $query->where('ten_phim','like','%' .$keyWord. '%');          
         });
         }
         
@@ -157,6 +173,7 @@ class PhimController extends Controller
         $phim->thoi_luong=$req->thoi_luong;
         $chitietDienVien->dien_vien_id=$req->dien_vien_id;
         $phim->link_server=$req->link_server;
+        $phim->dao_dien=$req->dao_dien;
         $phim->link_trailer=$req->link_trailer;
         $phim->nam_san_xuat=$req->nam_san_xuat;
         $phim->tieu_de = $req->tieu_de;
@@ -169,7 +186,7 @@ class PhimController extends Controller
         $chitietDienVien->phim_id=$phim->id;
         $chitietDienVien->save();
         return response()->json([
-            'message_vn'    => 'Thêm thành công',
+            'message_vn'    => 'Thêm phim thành công',
             'message_en'    => 'Add successful',
             'code'          => 200,
             'data'          => $phim
@@ -196,7 +213,10 @@ class PhimController extends Controller
     public function show($id)
     {
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
-            $phim = phim::find($id);
+            $phim = phim::where('phims.id',$id)
+                ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
+                    ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
+                    ->select('phims.*','dv.ten_dien_vien')->first();
             if(empty($phim)){
                 return response()->json([
                     'message'   => 'Không tìm thấy thông tin phim tương ứng',
@@ -293,12 +313,18 @@ class PhimController extends Controller
     {
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
         $phim = phim::find($id);
+        if($phim !=null){
         $phim->delete();
         return response()->json([
             'message_vn'    => 'Xóa thành thành công',
             'message_en'    => 'Delete successful',
             'code'=>200,
             'date'=>$phim
+        ]);
+        }
+        return response()->json([
+            'message'   => 'Id phim này không tồn tại',
+            'code'      => 403
         ]);
     }
     return response()->json([
@@ -321,8 +347,11 @@ class PhimController extends Controller
 
     public function khoiPhucPhimDaXoa($id)
     {
+
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
         $phim=phim::onlyTrashed()->find($id);
+        if($phim != null)
+        {
         $phim->restore();
         return response()->json([
             'message_vn'    => 'Khôi phục thành công',
@@ -330,11 +359,24 @@ class PhimController extends Controller
             'code'=>200,
             'date'=>$phim
         ]);
+        } return response()->json([
+            'message'   => 'Id phim này chưa được xóa hoặc không tồn tại',
+            'code'      => 403
+        ]);
     }
     return response()->json([
         'message'   => 'Bạn không thể thực hiện chức năng này',
         'code'      => 403
     ]);
     }
+
+    
+    // public function test()
+    // {
+    //     $dsdv = dien_vien::find(1)->DanhSachDienVien;
+    //     return response()->json([
+    //         'data' => $dsdv
+    //     ]);
+    // }
 
 }

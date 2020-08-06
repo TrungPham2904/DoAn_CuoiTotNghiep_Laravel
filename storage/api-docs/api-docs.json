@@ -61,66 +61,45 @@
                 ],
                 "summary": "Thêm diễn viên ",
                 "operationId": "create",
-                "parameters": [
-                    {
-                        "name": "ten_dien_vien",
-                        "in": "query",
-                        "description": "Tên diễn viên",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "nam_sinh",
-                        "in": "query",
-                        "description": "Năm sinh",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "gioi_tinh",
-                        "in": "query",
-                        "description": "Giới tính",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "chieu_cao",
-                        "in": "query",
-                        "description": "Chiều cao",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "minimum": 1
-                        }
-                    },
-                    {
-                        "name": "quoc_tich",
-                        "in": "query",
-                        "description": "Quốc tịch",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "tieu_su",
-                        "in": "query",
-                        "description": "Tiểu sử",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "anh_dai_dien",
-                        "in": "query",
-                        "description": "Ảnh đại diện",
-                        "schema": {
-                            "type": "file"
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "ten_dien_vien": {
+                                        "description": "Tên diễn viên",
+                                        "type": "string"
+                                    },
+                                    "anh_dai_dien": {
+                                        "description": "Ảnh đại diện",
+                                        "type": "file"
+                                    },
+                                    "nam_sinh": {
+                                        "description": "Năm sinh",
+                                        "type": "string"
+                                    },
+                                    "gioi_tinh": {
+                                        "description": "Giới tính",
+                                        "type": "string"
+                                    },
+                                    "chieu_cao": {
+                                        "description": "Chiều cao",
+                                        "type": "string"
+                                    },
+                                    "quoc_tich": {
+                                        "description": "Quốc tịch",
+                                        "type": "string"
+                                    },
+                                    "tieu_su": {
+                                        "description": "Tiểu sử",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Successful operation"
@@ -253,7 +232,7 @@
             }
         },
         "/api/dien-vien/xoa-dienvien/{id}": {
-            "get": {
+            "delete": {
                 "tags": [
                     "Diễn viên"
                 ],
@@ -316,7 +295,7 @@
             }
         },
         "/api/dien-vien/khoi-phuc-dienvien/{id}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Diễn viên"
                 ],
@@ -621,6 +600,31 @@
                 ]
             }
         },
+        "/api/nguoi-dung/test": {
+            "get": {
+                "tags": [
+                    "Người Dùng"
+                ],
+                "summary": "Test",
+                "operationId": "soLuongNguoiTruyCap",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Error server"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/phim": {
             "get": {
                 "tags": [
@@ -628,6 +632,55 @@
                 ],
                 "summary": "Danh Sách Phim",
                 "operationId": "layDanhSach",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng phim viên trên trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter film",
+                        "content": {
+                            "application/json": {
+                                "mediaType": "application/json",
+                                "schema": {
+                                    "properties": {
+                                        "the_loai_phim": {
+                                            "type": "string"
+                                        },
+                                        "ten_quoc_gia": {
+                                            "type": "string"
+                                        },
+                                        "kieu_phim": {
+                                            "type": "string"
+                                        },
+                                        "nam_san_xuat": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -684,6 +737,10 @@
                                     },
                                     "dien_vien_id": {
                                         "description": "Diễn viên id",
+                                        "type": "string"
+                                    },
+                                    "dao_dien": {
+                                        "description": "Đạo diễn",
                                         "type": "string"
                                     },
                                     "link_server": {
@@ -856,7 +913,7 @@
             }
         },
         "/api/phim/xoa-phim/{id}": {
-            "get": {
+            "delete": {
                 "tags": [
                     "Phim"
                 ],
@@ -919,7 +976,7 @@
             }
         },
         "/api/phim/khoi-phuc-phim/{id}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Phim"
                 ],

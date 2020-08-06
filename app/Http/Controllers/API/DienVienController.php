@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\UploadFile;
 use App\dien_vien;
 use App\chi_tiet_dien_vien;
 
@@ -48,8 +49,12 @@ class DienVienController extends Controller
         $dienVien->chieu_cao = $req->chieu_cao;
         $dienVien->quoc_tich = $req->quoc_tich;
         $dienVien->tieu_su = $req->tieu_su;
-        $dienVien->anh_dai_dien = $req->anh_dai_dien;
         $dienVien->save();
+        if ($req->hasFile('anh_dai_dien') && $req->file('anh_dai_dien')->isValid()) {
+            $img = $req->anh_dai_dien;
+            $nameFile = UploadFile::uploadImg($img, 'dien_vien', 'anh_dai_dien');
+            dien_vien::whereId($dienVien->id)->update(['anh_dai_dien' => $nameFile]);
+        }
         return response()->json([
             'message_vn'    => 'Thêm thành công',
             'message_en'    => 'Add successful',
@@ -143,12 +148,13 @@ class DienVienController extends Controller
          $dienVien->chieu_cao=$req->chieu_cao;
          $dienVien->quoc_tich=$req->quoc_tich;
          $dienVien->tieu_su=$req->tieu_su;
-         $dienVien->save();
          if ($req->hasFile('anh_dai_dien') && $req->file('anh_dai_dien')->isValid()) {
             $img = $req->anh_dai_dien;
             $nameFile = UploadFile::uploadImg($img, 'dien_vien', 'anh_dai_dien');
             dien_vien::whereId($dienVien->id)->update(['anh_dai_dien' => $nameFile]);
         }
+         $dienVien->save();
+       
         return response()->json([
           'message_vn'    => 'Cập nhật thành công',
           'message_en'    => 'Update successful',
@@ -167,12 +173,19 @@ class DienVienController extends Controller
     {
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
             $dienVien = dien_vien::find($id);
+            if($dienVien !=null)
+            {
             $dienVien->delete();
             return response()->json([
                 'message_vn'    => 'Xóa thành thành công',
                 'message_en'    => 'Delete successful',
                 'code'=>200,
                 'date'=>$dienVien
+            ]);
+            }
+            return response()->json([
+                'message'   => 'Id diễn viên không tồn tại',
+                'code'      => 403
             ]);
         }
         return response()->json([
@@ -197,12 +210,19 @@ class DienVienController extends Controller
     {
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
         $dienVien=dien_vien::onlyTrashed()->find($id);
+        if($dienVien != null)
+        {
         $dienVien->restore();
         return response()->json([
             'message_vn'    => 'Khôi phục thành công',
             'message_en'    => 'Restore successful',
             'code'=>200,
             'date'=>$dienVien
+        ]);
+        }
+        return response()->json([
+            'message'   => 'Id diễn viên này chưa được xóa hoặc không tồn tại',
+            'code'      => 403
         ]);
     }
     return response()->json([
