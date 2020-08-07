@@ -258,7 +258,6 @@ class PhimController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
             $phim = phim::where('phims.id',$id)
                 ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
                     ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
@@ -274,11 +273,6 @@ class PhimController extends Controller
                 'code'      => 200,
                 'data'      => $phim
             ]);
-        }
-        return response()->json([
-            'message'   => 'Bạn không thể thực hiện chức năng này',
-            'code'      => 403
-        ]);
     }
 
     /**
