@@ -192,7 +192,7 @@
  * )
  */
 /**
- * @OA\Post(
+ * @OA\Put(
  *     tags={"Phim"},
  *     path="/api/phim/{id}",
  *     summary="Cập nhật thông tin phim",

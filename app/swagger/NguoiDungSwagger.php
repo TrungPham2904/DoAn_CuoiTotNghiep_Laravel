@@ -155,7 +155,7 @@
  *     @OA\Parameter(
  *         name="key_word",
  *         in="query",
- *         description="Find admin by keyword (ten_phim | dien_vien)",
+ *         description="Find admin by keyword (ten_phim | ten_dien_vien |dao_dien | ten_quoc_gia | kieu_phim)",
  *         @OA\Schema(
  *             type="string"
  *         )
@@ -244,27 +244,3 @@
  *     }
  * )
  */
-/**
- * @OA\Get(
- *     tags={"Người Dùng"},
- *     path="/api/nguoi-dung/test",
- *     summary="Test",
- *     operationId="soLuongNguoiTruyCap",
- *     @OA\Response(
- *         response=200,
- *         description="Successful operation",
- *     ),
- *     @OA\Response(
- *         response=401,
- *         description="Unauthorized",
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error server",
- *     ),
- *     security={
- *         {"bearerAuth": {}}
- *     }
- * )
- */
-

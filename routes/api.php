@@ -32,7 +32,7 @@ Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_t
 Route::group(['prefix' => 'nguoi-dung'], function () {
         Route::post('login', 'API\LoginController@dangNhapNguoiDung');
         Route::post('them-moi-nguoidung','API\NguoiDungController@create');
-        Route::get('test','API\NguoiDungController@soLuongNguoiTruyCap');
+       
         Route::middleware(['assign.guard:quanTriVien|nguoiDung', 'jwt.auth','role:quan_tri_vien|nguoi_dung'])->group(function(){
                 
         });
@@ -45,21 +45,21 @@ Route::group(['prefix' => 'nguoi-dung'], function () {
        
 });
 Route::group(['prefix' => 'admin'], function () {
+        Route::get('','API\NguoiDungController@index');
         Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
-                Route::get('','API\NguoiDungController@index');
+               
         }); 
 
 });
 Route::group(['prefix' => 'phim'], function () {
         Route::get('','API\PhimController@layDanhSach');
-        // Route::get('test','API\PhimController@test');
-        Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
         Route::get('/ds-xoa-phim','API\PhimController@danhSachPhimDaXoa');
         Route::post('them-phim','API\PhimController@create');
         Route::delete('/xoa-phim/{id}','API\PhimController@destroy');
         Route::post('/khoi-phuc-phim/{id}','API\PhimController@khoiPhucPhimDaXoa');
         Route::get('{id}','API\PhimController@show');
-        Route::post('{id}','API\PhimController@update');
+        Route::put('{id}','API\PhimController@update');
+        Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){ 
         }); 
 });
 Route::group(['prefix' => 'dien-vien'], function () {

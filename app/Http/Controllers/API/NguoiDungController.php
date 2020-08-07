@@ -57,14 +57,6 @@ class NguoiDungController extends Controller
             ]
         );
     }
-    public function soLuongNguoiTruyCap()
-    {
-        $listDanhSachNguoiTruyCap=nguoi_dung::Where('id','>','0');
-        // $listDanhSachNguoiTruyCap++;
-        // $listDanhSachNguoiTruyCap->save();
-       echo $listDanhSachNguoiTruyCap;
-
-    }
     /**
      * Show the form for creating a new resource.
      *
