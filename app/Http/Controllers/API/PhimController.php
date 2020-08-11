@@ -259,6 +259,7 @@ class PhimController extends Controller
      */
     public function show($id)
     {
+
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
             $phim = phim::whereId($id)
                 // ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
@@ -269,6 +270,12 @@ class PhimController extends Controller
             //  $query->select('id','ten_dien_vien','nam_sinh','gioi_tinh','chieu_cao','quoc_tich','tieu_su','anh_dai_dien');
             }]);
         }])->first();  
+
+            $phim = phim::where('phims.id',$id)
+                ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
+                    ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
+                    ->select('phims.*','dv.ten_dien_vien')->first();
+
             if(empty($phim)){
                 return response()->json([
                     'message'   => 'Không tìm thấy thông tin phim tương ứng',
@@ -280,11 +287,6 @@ class PhimController extends Controller
                 'code'      => 200,
                 'data'      => $phim
             ]);
-        }
-        return response()->json([
-            'message'   => 'Bạn không thể thực hiện chức năng này',
-            'code'      => 403
-        ]);
     }
 
     /**

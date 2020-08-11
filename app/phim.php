@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Request;
-use App\Quocgia;
+use App\QuocGia;
 use App\loai_phim;
 use App\dien_vien;
 use App\chi_tiet_dien_vien;
