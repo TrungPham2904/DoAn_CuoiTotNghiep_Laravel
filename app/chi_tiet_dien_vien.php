@@ -13,8 +13,9 @@ class chi_tiet_dien_vien extends Model
 
     public function getDienVienAttribute()
     {
-        $dienVien =dien_vien::where('id', $this->dien_vien_id)->get();
-        return $dienVien[0]->dien_vien;
+        // $dienVien =dien_vien::where('id', $this->dien_vien_id)->get();
+        // return $dienVien[0]->dien_vien;
+        return dien_vien::find($this->dien_vien_id);
     }
     public function Tendienvien()
     {
@@ -22,8 +23,9 @@ class chi_tiet_dien_vien extends Model
     }
     public function getTenPhimAttribute()
     {
-        $tenPhim =phim::where('id', $this->phim_id)->get();
-        return $tenPhim[0]->ten_phim;
+        // $tenPhim =phim::where('id', $this->phim_id)->get();
+        // return $tenPhim[0]->ten_phim;
+        return phim::find($this->phim_id);
     }
     public function Phim()
     {

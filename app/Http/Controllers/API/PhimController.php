@@ -187,18 +187,18 @@ class PhimController extends Controller
                 'code'          => 417
             ]);
         }
-        $dienVien=dien_vien::where('id',$req->dien_vien_id)->first();
-        if(empty($dienVien))
-        {
-            return response()->json([
-                'message_vn'    => 'Không tìm thấy thông tin diễn viên tương ứng',
-                'code'          => 417
-            ]);
-        }
+        // $dienVien=dien_vien::where('id',$req->dien_vien_id)->first();
+        // if(empty($dienVien))
+        // {
+        //     return response()->json([
+        //         'message_vn'    => 'Không tìm thấy thông tin diễn viên tương ứng',
+        //         'code'          => 417
+        //     ]);
+        // }
 
 
         $phim = new phim;
-        $chitietDienVien= new chi_tiet_dien_vien; 
+        // $chitietDienVien= new chi_tiet_dien_vien; 
         if (isset($req->ten_phim) && !empty($req->ten_phim)) {
             if ($req->ten_phim != $phim->ten_phim) {
                 $existsTenPhim = phim::whereTenPhim($req->ten_phim)
@@ -217,20 +217,21 @@ class PhimController extends Controller
         $phim->quoc_gia_id=$quocGia->id;
         $phim->kieu_phim_id=$kieuPhim->id;
         $phim->thoi_luong=$req->thoi_luong;
-        $chitietDienVien->dien_vien_id=$dienVien->id;
+        // $chitietDienVien->dien_vien_id=$dienVien->id;
         $phim->link_server=$req->link_server;
         $phim->dao_dien=$req->dao_dien;
         $phim->link_trailer=$req->link_trailer;
         $phim->nam_san_xuat=$req->nam_san_xuat;
         $phim->tieu_de = $req->tieu_de;
         $phim->save();
+        // DienVienControler::update();
         if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
             $img = $req->poster;
             $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
             phim::whereId($phim->id)->update(['poster' => $nameFile]);
         }
-        $chitietDienVien->phim_id=$phim->id;
-        $chitietDienVien->save();
+        // $chitietDienVien->phim_id=$phim->id;
+        // $chitietDienVien->save();
         return response()->json([
             'message_vn'    => 'Thêm phim thành công',
             'message_en'    => 'Add successful',
@@ -258,10 +259,23 @@ class PhimController extends Controller
      */
     public function show($id)
     {
+
+        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
+            $phim = phim::whereId($id)
+                // ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
+                //     ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
+                //     ->select('phims.*','dv.ten_dien_vien')->first();
+             ->with(['ChiTietDienVien' => function($query){
+             $query->with(['DienVien' => function($query){
+            //  $query->select('id','ten_dien_vien','nam_sinh','gioi_tinh','chieu_cao','quoc_tich','tieu_su','anh_dai_dien');
+            }]);
+        }])->first();  
+
             $phim = phim::where('phims.id',$id)
                 ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
                     ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
                     ->select('phims.*','dv.ten_dien_vien')->first();
+
             if(empty($phim)){
                 return response()->json([
                     'message'   => 'Không tìm thấy thông tin phim tương ứng',
@@ -293,8 +307,33 @@ class PhimController extends Controller
                 'code'      => 417
             ]);
         }
+        $quocGia=QuocGia::where('id',$req->quoc_gia_id)->first();
+        if(empty($quocGia))
+        {
+            return response()->json([
+                'message_vn'    => 'Không tìm thấy thông tin quốc gia tương ứng',
+                'code'          => 417
+            ]);
+        }
+
+        $loaiPhim=loai_phim::where('id',$req->loai_phim_id)->first();
+        if(empty($loaiPhim))
+        {
+            return response()->json([
+                'message_vn'    => 'Không tìm thấy thông tin loại phim tương ứng',
+                'code'          => 417
+            ]);
+        }
+        $kieuPhim=kieu_phim::where('id',$req->kieu_phim_id)->first();
+        if(empty($kieuPhim))
+        {
+            return response()->json([
+                'message_vn'    => 'Không tìm thấy thông tin kiểu phim tương ứng',
+                'code'          => 417
+            ]);
+        }
         $phim = phim::find($id);
-        $chitietDienVien=chi_tiet_dien_vien::find($id); 
+        // $chitietDienVien=chi_tiet_dien_vien::find($id); 
         if(empty($phim)){
           return response()->json([
               'message'   => 'Không tìm thấy thông tin phim tương ứng',
@@ -313,23 +352,24 @@ class PhimController extends Controller
           }
            $phim->ten_phim =$req->ten_phim;
       }
-        $phim->loai_phim_id=$req->loai_phim_id;      
-        $phim->quoc_gia_id=$req->quoc_gia_id;
-        $phim->kieu_phim_id=$req->kieu_phim_id;
+        $phim->loai_phim_id=$loaiPhim->id;      
+        $phim->quoc_gia_id=$quocGia->id;
+        $phim->kieu_phim_id=$kieuPhim->id;
         $phim->thoi_luong=$req->thoi_luong;
-        $chitietDienVien->dien_vien_id=$req->dien_vien_id;
+        // $chitietDienVien->dien_vien_id=$req->dien_vien_id;
         $phim->link_server=$req->link_server;
         $phim->link_trailer=$req->link_trailer;
         $phim->nam_san_xuat=$req->nam_san_xuat;
         $phim->tieu_de = $req->tieu_de;
-        $phim->save();
         if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
             $img = $req->poster;
             $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
             phim::whereId($phim->id)->update(['poster' => $nameFile]);
         }
-        $chitietDienVien->phim_id=$phim->id;
-        $chitietDienVien->save();
+        $phim->save();
+       
+        // $chitietDienVien->phim_id=$phim->id;
+        // $chitietDienVien->save();
         return response()->json([
           'message_vn'    => 'Cập nhật thành công',
           'message_en'    => 'Update successful',
