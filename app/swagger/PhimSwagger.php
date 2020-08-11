@@ -108,11 +108,6 @@
  *                     type="string",
  *                 ),
  *                  @OA\Property(
- *                     property="dien_vien_id",
- *                     description="Diễn viên id",
- *                     type="string",
- *                 ),
- *                  @OA\Property(
  *                     property="dao_dien",
  *                     description="Đạo diễn",
  *                     type="string",
@@ -192,7 +187,7 @@
  * )
  */
 /**
- * @OA\Put(
+ * @OA\Post(
  *     tags={"Phim"},
  *     path="/api/phim/{id}",
  *     summary="Cập nhật thông tin phim",
@@ -241,11 +236,6 @@
  *                 @OA\Property(
  *                     property="thoi_luong",
  *                     description="Thời lượng",
- *                     type="string",
- *                 ),
- *                  @OA\Property(
- *                     property="dien_vien_id",
- *                     description="Diễn viên id",
  *                     type="string",
  *                 ),
  *                  @OA\Property(

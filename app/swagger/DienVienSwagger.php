@@ -48,6 +48,16 @@
  *     path="/api/dien-vien/them-dienvien",
  *     summary="Thêm diễn viên ",
  *     operationId="create",
+ *      @OA\Parameter(
+ *         name="gioi_tinh",
+ *         in="query",
+ *         description="Giới tính diễn viên",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string",
+ *             enum = {"Nam", "Nữ", "Khác"},
+ *         )
+ *     ),
 *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="multipart/form-data",
@@ -66,11 +76,6 @@
  *                 @OA\Property(
  *                     property="nam_sinh",
  *                     description="Năm sinh",
- *                     type="string",
- *                 ),
- *                 @OA\Property(
- *                     property="gioi_tinh",
- *                     description="Giới tính",
  *                     type="string",
  *                 ),
  *                 @OA\Property(
