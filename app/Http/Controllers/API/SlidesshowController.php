@@ -8,6 +8,7 @@ use App\slidesshow;
 use App\Helpers\UploadFile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+
 class SlidesshowController extends Controller
 {
     /**
@@ -35,17 +36,17 @@ class SlidesshowController extends Controller
         $slidesShow = new slidesshow;
         if ($req->hasFile('slidesshow_1') && $req->file('slidesshow_1')->isValid()) {
             $img = $req->slidesshow_1;
-            $nameFile = UploadFile::uploadImg($img, 'slidesshow_1', 'slidesshow_1');
+            $nameFile = UploadFile::uploadImg($img, 'slidesshow', 'slidesshow_1');
             slidesshow::whereId($slidesShow->id)->update(['slidesshow_1' => $nameFile]);
         }
         if ($req->hasFile('slidesshow_2') && $req->file('slidesshow_2')->isValid()) {
             $img = $req->slidesshow_2;
-            $nameFile = UploadFile::uploadImg($img, 'slidesshow_2', 'slidesshow_2');
+            $nameFile = UploadFile::uploadImg($img, 'slidesshow', 'slidesshow_2');
             slidesshow::whereId($slidesShow->id)->update(['slidesshow_2' => $nameFile]);
         }
         if ($req->hasFile('slidesshow_3') && $req->file('slidesshow_3')->isValid()) {
             $img = $req->slidesshow_3;
-            $nameFile = UploadFile::uploadImg($img, 'slidesshow_3', 'slidesshow_3');
+            $nameFile = UploadFile::uploadImg($img, 'slidesshow', 'slidesshow_3');
             slidesshow::whereId($slidesShow->id)->update(['slidesshow_3' => $nameFile]);
         }
         $slidesShow->save();
@@ -54,6 +55,7 @@ class SlidesshowController extends Controller
             'code'          => 200,
             'data'          => $slidesShow
         ]);
+        
 
 
     }

@@ -60,13 +60,28 @@ class PhimController extends Controller
                     ->select('phims.*','dv.ten_dien_vien'); 
         $listDanhSach->orderByDesc('updated_at');
         $data=$listDanhSach->paginate($limit);
-            // print_r($data);exit;
             $customMess = collect([
                 'message'   => 'Lấy danh sách thành công',
                 'code'      => 200
             ]);
             $result = $customMess->merge($data);
             return response()->json($result);
+
+    }
+    public function footerPhimLe()
+    {
+        $limit=30;
+        if(isset($req->limit) && !empty($req->limit)){
+            $limit=$req->limit;
+        }
+        $listDanhSachPhimLe = phim::where('phims.kieu_phim_id',2);
+        $data=$listDanhSachPhimLe->paginate($limit);   
+        $customMess = collect([
+            'message'   => 'Lấy danh sách phim lẻ thành công',
+            'code'      => 200
+        ]);
+        $result = $customMess->merge($data);
+        return response()->json($result);
 
     }
     public function TiemKiem(Request $req)
@@ -96,7 +111,6 @@ class PhimController extends Controller
         return response()->json(
             [
               'message'=>'Tìm kiếm thành công',
-              'message_en'    => 'Find successful',
                'data'=>$data,
                'code'=>200   
             ]
@@ -121,21 +135,6 @@ class PhimController extends Controller
             ]
         );
     }
-    // public function TaoPhim(Request $request)
-    // { 
-    //     if(Request::hasFile('fileFilm')){
-    //         $file = Request::file('fileFilm');
-    //         $filename = $file->getClientOriginalName();
-    //         $path = public_path().'/uploads/';
-    //          $file->move($path, $filename);
-    //         return response()->json(
-    //             [
-    //               'message'=>'Upload thành công',
-    //                'code'=>200   
-    //             ]
-    //         );
-    //     }
-    // }
 
     /**
      * Display a listing of the resource.
@@ -262,19 +261,15 @@ class PhimController extends Controller
 
         if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
             $phim = phim::whereId($id)
-                // ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
-                //     ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
-                //     ->select('phims.*','dv.ten_dien_vien')->first();
              ->with(['ChiTietDienVien' => function($query){
              $query->with(['DienVien' => function($query){
-            //  $query->select('id','ten_dien_vien','nam_sinh','gioi_tinh','chieu_cao','quoc_tich','tieu_su','anh_dai_dien');
+             $query->select('id','ten_dien_vien','nam_sinh','gioi_tinh','chieu_cao','quoc_tich','tieu_su','anh_dai_dien');
             }]);
         }])->first();  
-
-            $phim = phim::where('phims.id',$id)
-                ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
-                    ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
-                    ->select('phims.*','dv.ten_dien_vien')->first();
+            // $phim = phim::where('phims.id',$id)
+            //     ->join('chi_tiet_dien_viens as ct','ct.phim_id','phims.id')
+            //         ->join('dien_viens as dv','dv.id','ct.dien_vien_id')
+            //         ->select('phims.*','dv.ten_dien_vien')->first();
 
             if(empty($phim)){
                 return response()->json([
@@ -288,6 +283,7 @@ class PhimController extends Controller
                 'data'      => $phim
             ]);
     }
+}
 
     /**
      * Update the specified resource in storage.
@@ -296,6 +292,7 @@ class PhimController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function update(Request $req, $id)
     {
         $valid = new AddNewRequest;

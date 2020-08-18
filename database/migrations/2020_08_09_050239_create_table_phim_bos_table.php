@@ -15,7 +15,7 @@ class CreateTablePhimBosTable extends Migration
     {
         Schema::create('phim_bos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kieu_phim_id')->nullable();
+            $table->string('phim_id')->nullable();
             $table->string('tap_phim')->nullable();
             $table->string('link_phim')->nullable();
             $table->timestamps();
