@@ -66,6 +66,49 @@
  *     }
  * )
  */
+/**
+ * @OA\Get(
+ *     tags={"Phim"},
+ *     path="/api/phim/ds-phim-le",
+ *     summary="Danh sách phim lẻ",
+ *     operationId="footerPhimLe",
+ *     @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         description="Số lượng phim viên trên trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Số trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1
+ *         )
+ * ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="OK",
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error server",
+ *     ),
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * )
+ */
  /**
  * @OA\Post(
  *     tags={"Phim"},

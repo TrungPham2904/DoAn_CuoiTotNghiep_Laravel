@@ -53,7 +53,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 Route::group(['prefix' => 'phim'], function () {
         Route::get('','API\PhimController@layDanhSach');
-       
+        Route::get('ds-phim-le','API\PhimController@footerPhimLe');
         Route::middleware(['assign.guard:quanTriVien|nguoiDung','jwt.auth', 'role:quan_tri_vien|supper_admin'])->group(function(){
                 Route::get('/ds-xoa-phim','API\PhimController@danhSachPhimDaXoa');
                 Route::post('them-phim','API\PhimController@create');
@@ -88,6 +88,10 @@ Route::group(['prefix' => 'slidesshow'], function () {
 Route::group(['prefix' => 'chi-tiet-dien-vien'], function () {
         Route::post('them-chi-tiet','API\ChiTietDienVienController@create');
         Route::post('{id}','API\ChiTietDienVienController@update');
+});
+
+Route::group(['prefix' => 'test'], function () {
+        Route::post('','API\LogionFacbookController@login'); 
 });
 
 
