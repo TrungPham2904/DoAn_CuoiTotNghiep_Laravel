@@ -30,6 +30,12 @@ class PhimController extends Controller
         //      $listDanhSach->whereHas('Loaiphim',function (Builder $query) use ($loaiphimid){
         //         $query->where('id',$loaiphimid);
         //      });
+        if(!empty($req->key_word)){
+            $keyWord=$req->key_word;
+            $listDanhSach->where(function($query) use ($keyWord){
+                $query->where('ten_phim','like','%' .$keyWord. '%');
+            });
+        }
         if(!empty($req->kieu_phim_id))
         {
              $listDanhSach=where('kieu_phim_id','like','%' .$req->kieu_phim_id. '%');
@@ -56,13 +62,7 @@ class PhimController extends Controller
             $limit=$req->limit;
         }
         $listDanhSach = phim::where('id','>',0);
-        if(!empty($req->key_word)){
-        $keyWord=$req->key_word;
-        $listDanhSach->where(function($query) use ($keyWord){
-            $query->where('ten_phim','like','%' .$keyWord. '%')
-                  ->orWhere('dien_vien','like','%' .$keyWord. '%');          
-        });
-        }
+       
         
         $data=$listDanhSach->paginate($limit);
 
@@ -155,17 +155,18 @@ class PhimController extends Controller
         $phim->quoc_gia_id=$req->quoc_gia_id;
         $phim->kieu_phim_id=$req->kieu_phim_id;
         $phim->thoi_luong=$req->thoi_luong;
+        $phim->poster=$req->poster;
         $chitietDienVien->dien_vien_id=$req->dien_vien_id;
         $phim->link_server=$req->link_server;
         $phim->link_trailer=$req->link_trailer;
         $phim->nam_san_xuat=$req->nam_san_xuat;
         $phim->tieu_de = $req->tieu_de;
         $phim->save();
-        if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
-            $img = $req->poster;
-            $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
-            phim::whereId($phim->id)->update(['poster' => $nameFile]);
-        }
+        // if ($req->hasFile('poster') && $req->file('poster')->isValid()) {
+        //     $img = $req->poster;
+        //     $nameFile = UploadFile::uploadImg($img, 'phim', 'poster');
+        //     phim::whereId($phim->id)->update(['poster' => $nameFile]);
+        // }
         $chitietDienVien->phim_id=$phim->id;
         $chitietDienVien->save();
         return response()->json([
@@ -195,7 +196,7 @@ class PhimController extends Controller
      */
     public function show($id)
     {
-        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
+       
             $phim = phim::find($id);
             if(empty($phim)){
                 return response()->json([
@@ -208,11 +209,7 @@ class PhimController extends Controller
                 'code'      => 200,
                 'data'      => $phim
             ]);
-        }
-        return response()->json([
-            'message'   => 'Bạn không thể thực hiện chức năng này',
-            'code'      => 403
-        ]);
+      
     }
 
     /**
@@ -289,22 +286,15 @@ class PhimController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $id)
     {
-        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
-        $phim = phim::find($id);
+        $phim = phim::find($id->id);
         $phim->delete();
         return response()->json([
-            'message_vn'    => 'Xóa thành thành công',
-            'message_en'    => 'Delete successful',
+            'message'    => 'Xóa thành thành công',
             'code'=>200,
-            'date'=>$phim
+            'data'=>$phim
         ]);
-    }
-    return response()->json([
-        'message'   => 'Bạn không thể thực hiện chức năng này',
-        'code'      => 403
-    ]);
     }
 
     public function danhSachPhimDaXoa()
@@ -312,29 +302,21 @@ class PhimController extends Controller
        
         $phim=phim::onlyTrashed()->get();
         return response()->json([
-            'message_vn'    => 'Lấy danh sách xóa thành công',
-            'message_en'    => 'List delete successful',
+            'message'    => 'Lấy danh sách xóa thành công phim da xoa',
             'code'=>200,
-            'date'=>$phim
+            'data'=>$phim
         ]);
     }
 
     public function khoiPhucPhimDaXoa($id)
     {
-        if (JWTAuth::user()->id == $id || JWTAuth::user()->roles[0]->name == 'supper_admin' || JWTAuth::user()->roles[0]->name == 'quanTriVien' ) {
         $phim=phim::onlyTrashed()->find($id);
         $phim->restore();
         return response()->json([
-            'message_vn'    => 'Khôi phục thành công',
-            'message_en'    => 'Restore successful',
+            'message'    => 'Khôi phục thành công',
             'code'=>200,
-            'date'=>$phim
+            'data'=>$phim
         ]);
-    }
-    return response()->json([
-        'message'   => 'Bạn không thể thực hiện chức năng này',
-        'code'      => 403
-    ]);
     }
 
 }

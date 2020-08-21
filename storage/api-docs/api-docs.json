@@ -519,16 +519,6 @@
                 ],
                 "summary": "Tiềm kiếm tất cả",
                 "operationId": "TiemKiem",
-                "parameters": [
-                    {
-                        "name": "key_word",
-                        "in": "query",
-                        "description": "Find admin by keyword (ten_phim | dien_vien)",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
@@ -628,6 +618,36 @@
                 ],
                 "summary": "Danh Sách Phim",
                 "operationId": "layDanhSach",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng phim viên trên trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "key_word",
+                        "in": "query",
+                        "description": "Find admin by keyword (ten_phim)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"

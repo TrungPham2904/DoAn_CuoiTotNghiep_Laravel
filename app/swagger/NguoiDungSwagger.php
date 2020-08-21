@@ -152,14 +152,7 @@
  *     path="/api/nguoi-dung/tiem-kiem",
  *     summary="Tiềm kiếm tất cả",
  *     operationId="TiemKiem",
- *     @OA\Parameter(
- *         name="key_word",
- *         in="query",
- *         description="Find admin by keyword (ten_phim | dien_vien)",
- *         @OA\Schema(
- *             type="string"
- *         )
- *     ),
+ 
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation",

@@ -30,11 +30,12 @@ class AddNewRequest extends FormRequest
             'kieu_phim_id' =>'bail|integer|required',
             'thoi_luong' =>'bail|integer|required',
             'dien_vien_id' =>'bail|integer',
-            'link_server' =>'bail|required|url',
-            'link_trailer' =>'bail|required|url',
+            'link_server' =>'bail|required',
+            'link_trailer' =>'bail|required',
             // 'nam_san_xuat' =>'bail|required|date_format:format:Y',
             'tieu_de' =>'bail|max:1000|required',
-            'poster'  => 'bail|required|nullable|image|mimes:jpg,png,jpeg',
+            'poster'  => 'bail|required',
+            //|nullable|image|mimes:jpg,png,jpeg'
             // 'phim_id' =>'bail|required|integer',
 
         ];
@@ -54,9 +55,9 @@ class AddNewRequest extends FormRequest
             // 'nam_san_xuat.date_format' =>'Năm sản xuất không đúng định dạng',
             'tieu_de.required' => 'Tiêu đề không được bỏ trống',
             'tieu_đề.max' =>'Tiêu đề tối đa 1000 kí tự',
-            'poster.image'  => 'Hình đại diện không đúng định dạng - The avatar must be an image',
-            'poster.mimes'  => 'Hình đại diện phải là: png, jpg, jpeg - The avatar must be a file of type: jpg, png, jpeg',
-            'poster.required' => 'Vui lòng chọn poster - Please enter the poster',
+            // 'poster.image'  => 'Hình đại diện không đúng định dạng - The avatar must be an image',
+            // 'poster.mimes'  => 'Hình đại diện phải là: png, jpg, jpeg - The avatar must be a file of type: jpg, png, jpeg',
+            // 'poster.required' => 'Vui lòng chọn poster - Please enter the poster',
             // 'phim_id.integer' =>'Phim id chỉ được nhập số',
 
 

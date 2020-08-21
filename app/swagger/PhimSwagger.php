@@ -5,6 +5,34 @@
  *     path="/api/phim",
  *     summary="Danh Sách Phim",
  *     operationId="layDanhSach",
+ *      @OA\Parameter(
+ *         name="limit",
+ *         in="query",
+ *         description="Số lượng phim viên trên trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1,
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Số trang",
+ *         @OA\Schema(
+ *             type="integer",
+ *             format="int64",
+ *             minimum=1
+ *         )
+ *     ),
+ *    @OA\Parameter(
+ *         name="key_word",
+ *         in="query",
+ *         description="Find admin by keyword (ten_phim)",
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
  *     @OA\Response(
  *         response=200,
  *         description="OK",

@@ -54,6 +54,17 @@ class phim extends Model
         return $this->belongsTo('App\kieu_phim','loai_phim_id','id');
     }
 
+    // public function getImgAttribute() {
+    //     if ($this->poster == null) {
+    //         return null;
+    //     }
+    //     return [
+    //         'original'  => request()->getSchemeAndHttpHost(). '/phim/poster/original/'. $this->poster,
+    //         'medium'    => request()->getSchemeAndHttpHost(). '/phim/poster/medium/'. $this->poster,
+    //         'thumb'     => request()->getSchemeAndHttpHost(). '/phim/poster/thumb/'. $this->poster,
+    //     ];
+    // }
+
     // public function TenDienVien()
     // {
     //     return $this->belongsToMany('App\dien_vien','chi_tiet_dien_vien','dien_vien_id','phim_id');
